@@ -22,7 +22,7 @@ class ResourceCheckerConfigCacheFactory implements ConfigCacheFactoryInterface
     private $resourceCheckers = [];
 
     /**
-     * @param iterable<int, ResourceCheckerInterface> $resourceCheckers
+     * @param iterable|ResourceCheckerInterface[] $resourceCheckers
      */
     public function __construct(iterable $resourceCheckers = [])
     {

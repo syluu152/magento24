@@ -6,7 +6,6 @@ use ArrayIterator;
 use ArrayObject;
 use IteratorAggregate;
 use Laminas\Session\Exception;
-use ReturnTypeWillChange;
 
 use function array_flip;
 use function array_key_exists;
@@ -25,8 +24,6 @@ use function unserialize;
  *
  * Replaces the $_SESSION superglobal with an ArrayObject that allows for
  * property access, metadata storage, locking, and immutability.
- *
- * @see ReturnTypeWillChange
  */
 abstract class AbstractSessionArrayStorage implements
     IteratorAggregate,
@@ -124,7 +121,6 @@ abstract class AbstractSessionArrayStorage implements
      * @param  mixed   $key
      * @return bool
      */
-    #[ReturnTypeWillChange]
     public function offsetExists($key)
     {
         return isset($_SESSION[$key]);
@@ -136,7 +132,6 @@ abstract class AbstractSessionArrayStorage implements
      * @param  mixed $key
      * @return mixed
      */
-    #[ReturnTypeWillChange]
     public function offsetGet($key)
     {
         if (isset($_SESSION[$key])) {
@@ -153,7 +148,6 @@ abstract class AbstractSessionArrayStorage implements
      * @param  mixed $value
      * @return void
      */
-    #[ReturnTypeWillChange]
     public function offsetSet($key, $value)
     {
         $_SESSION[$key] = $value;
@@ -165,7 +159,6 @@ abstract class AbstractSessionArrayStorage implements
      * @param  mixed $key
      * @return void
      */
-    #[ReturnTypeWillChange]
     public function offsetUnset($key)
     {
         unset($_SESSION[$key]);
@@ -176,7 +169,6 @@ abstract class AbstractSessionArrayStorage implements
      *
      * @return int
      */
-    #[ReturnTypeWillChange]
     public function count()
     {
         return count($_SESSION);
@@ -208,7 +200,6 @@ abstract class AbstractSessionArrayStorage implements
      *
      * @return ArrayIterator
      */
-    #[ReturnTypeWillChange]
     public function getIterator()
     {
         return new ArrayIterator($_SESSION);
@@ -436,9 +427,16 @@ abstract class AbstractSessionArrayStorage implements
             return $this;
         }
 
+        if (! isset($_SESSION[$key])) {
+            return $this;
+        }
+
+        // Clear key data
         unset($_SESSION[$key]);
+
+        // Clear key metadata
         $this->setMetadata($key, null)
-            ->unlock($key);
+             ->unlock($key);
 
         return $this;
     }
@@ -489,14 +487,5 @@ abstract class AbstractSessionArrayStorage implements
         }
 
         return $values;
-    }
-
-    public function __serialize(): array
-    {
-        return $_SESSION;
-    }
-
-    public function __unserialize(array $session)
-    {
     }
 }

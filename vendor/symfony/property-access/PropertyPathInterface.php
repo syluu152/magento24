@@ -15,22 +15,20 @@ namespace Symfony\Component\PropertyAccess;
  * A sequence of property names or array indices.
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @extends \Traversable<int, string>
  */
 interface PropertyPathInterface extends \Traversable
 {
     /**
      * Returns the string representation of the property path.
      *
-     * @return string
+     * @return string The path as string
      */
     public function __toString();
 
     /**
      * Returns the length of the property path, i.e. the number of elements.
      *
-     * @return int
+     * @return int The path length
      */
     public function getLength();
 
@@ -42,14 +40,14 @@ interface PropertyPathInterface extends \Traversable
      *
      * If this property path only contains one item, null is returned.
      *
-     * @return self|null
+     * @return self|null The parent path or null
      */
     public function getParent();
 
     /**
      * Returns the elements of the property path as array.
      *
-     * @return list<string>
+     * @return array An array of property/index names
      */
     public function getElements();
 
@@ -58,7 +56,7 @@ interface PropertyPathInterface extends \Traversable
      *
      * @param int $index The index key
      *
-     * @return string
+     * @return string A property or index name
      *
      * @throws Exception\OutOfBoundsException If the offset is invalid
      */
@@ -69,7 +67,7 @@ interface PropertyPathInterface extends \Traversable
      *
      * @param int $index The index in the property path
      *
-     * @return bool
+     * @return bool Whether the element at this index is a property
      *
      * @throws Exception\OutOfBoundsException If the offset is invalid
      */
@@ -80,7 +78,7 @@ interface PropertyPathInterface extends \Traversable
      *
      * @param int $index The index in the property path
      *
-     * @return bool
+     * @return bool Whether the element at this index is an array index
      *
      * @throws Exception\OutOfBoundsException If the offset is invalid
      */

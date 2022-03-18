@@ -5,7 +5,6 @@ namespace Laminas\Db\Adapter\Driver\Pgsql;
 use Laminas\Db\Adapter\Driver\AbstractConnection;
 use Laminas\Db\Adapter\Exception;
 use Laminas\Db\ResultSet\ResultSetInterface;
-use PgSql\Connection as PgSqlConnection;
 
 use function array_filter;
 use function defined;
@@ -46,7 +45,7 @@ class Connection extends AbstractConnection
     {
         if (is_array($connectionInfo)) {
             $this->setConnectionParameters($connectionInfo);
-        } elseif ($connectionInfo instanceof PgSqlConnection || is_resource($connectionInfo)) {
+        } elseif (is_resource($connectionInfo)) {
             $this->setResource($connectionInfo);
         }
     }
@@ -124,7 +123,7 @@ class Connection extends AbstractConnection
      */
     public function connect()
     {
-        if ($this->resource instanceof PgSqlConnection || is_resource($this->resource)) {
+        if (is_resource($this->resource)) {
             return $this;
         }
 
@@ -169,7 +168,7 @@ class Connection extends AbstractConnection
      */
     public function isConnected()
     {
-        return $this->resource instanceof PgSqlConnection || is_resource($this->resource);
+        return is_resource($this->resource);
     }
 
     /**

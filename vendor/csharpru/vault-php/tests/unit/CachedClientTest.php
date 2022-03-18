@@ -8,9 +8,9 @@ use Vault\AuthenticationStrategies\UserPassAuthenticationStrategy;
 use Vault\CachedClient;
 use Vault\ResponseModels\Response;
 use VCR\VCR;
-use Laminas\Diactoros\RequestFactory;
-use Laminas\Diactoros\StreamFactory;
-use Laminas\Diactoros\Uri;
+use Zend\Diactoros\RequestFactory;
+use Zend\Diactoros\StreamFactory;
+use Zend\Diactoros\Uri;
 
 class CachedClientTest extends Unit
 {

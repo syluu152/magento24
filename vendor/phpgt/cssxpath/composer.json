@@ -4,14 +4,12 @@
 	"type": "library",
 
 	"require": {
-		"php": ">=7.3"
+		"php": ">=7.2"
 	},
 
 	"require-dev": {
-		"ext-dom": "*",
-		"ext-libxml": "*",
-		"phpunit/phpunit": "^9.5",
-		"phpstan/phpstan": ">=0.12.42"
+		"phpunit/phpunit": "^8.0",
+		"phpgt/dom": "*"
 	},
 
 	"license": "MIT",
@@ -23,23 +21,16 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Gt\\CssXPath\\Test\\": "./test/phpunit"
+			"Gt\\CssXPath\\Test\\": "./test/unit"
 		}
 	},
-
+	
 	"authors": [
 		{
 			"name": "Greg Bowler",
 			"homepage": "https://www.g105b.com",
 			"email": "greg.bowler@g105b.com",
 			"role": "Developer"
-		}
-	],
-
-	"funding": [
-		{
-			"type": "github",
-			"url": "https://github.com/sponsors/PhpGt"
 		}
 	]
 }

@@ -56,7 +56,7 @@ class Section
     /**
      * Returns the child section.
      *
-     * @return self|null
+     * @return self|null The child section or null when none found
      */
     public function get(string $id)
     {
@@ -86,7 +86,7 @@ class Section
     }
 
     /**
-     * @return string
+     * @return string The identifier of the section
      */
     public function getId()
     {
@@ -108,7 +108,7 @@ class Section
     /**
      * Starts an event.
      *
-     * @return StopwatchEvent
+     * @return StopwatchEvent The event
      */
     public function startEvent(string $name, ?string $category)
     {
@@ -132,7 +132,7 @@ class Section
     /**
      * Stops an event.
      *
-     * @return StopwatchEvent
+     * @return StopwatchEvent The event
      *
      * @throws \LogicException When the event has not been started
      */
@@ -148,7 +148,7 @@ class Section
     /**
      * Stops then restarts an event.
      *
-     * @return StopwatchEvent
+     * @return StopwatchEvent The event
      *
      * @throws \LogicException When the event has not been started
      */
@@ -160,7 +160,7 @@ class Section
     /**
      * Returns a specific event by name.
      *
-     * @return StopwatchEvent
+     * @return StopwatchEvent The event
      *
      * @throws \LogicException When the event is not known
      */
@@ -176,7 +176,7 @@ class Section
     /**
      * Returns the events from this section.
      *
-     * @return StopwatchEvent[]
+     * @return StopwatchEvent[] An array of StopwatchEvent instances
      */
     public function getEvents()
     {

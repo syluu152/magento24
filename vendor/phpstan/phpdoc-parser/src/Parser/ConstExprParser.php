@@ -70,10 +70,6 @@ class ConstExprParser
 						$classConstantName .= '*';
 						$lastType = Lexer::TOKEN_WILDCARD;
 
-						if ($tokens->getSkippedHorizontalWhiteSpaceIfAny() !== '') {
-							break;
-						}
-
 						continue;
 					}
 

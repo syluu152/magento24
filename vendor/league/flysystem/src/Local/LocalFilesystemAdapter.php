@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace League\Flysystem\Local;
 
-use function file_put_contents;
 use const DIRECTORY_SEPARATOR;
 use const LOCK_EX;
 use DirectoryIterator;
@@ -98,19 +97,6 @@ class LocalFilesystemAdapter implements FilesystemAdapter
 
     public function write(string $path, string $contents, Config $config): void
     {
-        $this->writeToFile($path, $contents, $config);
-    }
-
-    public function writeStream(string $path, $contents, Config $config): void
-    {
-        $this->writeToFile($path, $contents, $config);
-    }
-
-    /**
-     * @param resource|string $contents
-     */
-    private function writeToFile(string $path, $contents, Config $config): void
-    {
         $prefixedLocation = $this->prefixer->prefixPath($path);
         $this->ensureDirectoryExists(
             dirname($prefixedLocation),
@@ -118,8 +104,29 @@ class LocalFilesystemAdapter implements FilesystemAdapter
         );
         error_clear_last();
 
-        if (@file_put_contents($prefixedLocation, $contents, $this->writeFlags) === false) {
+        if (($size = @file_put_contents($prefixedLocation, $contents, $this->writeFlags)) === false) {
             throw UnableToWriteFile::atLocation($path, error_get_last()['message'] ?? '');
+        }
+
+        if ($visibility = $config->get(Config::OPTION_VISIBILITY)) {
+            $this->setVisibility($path, (string) $visibility);
+        }
+    }
+
+    public function writeStream(string $path, $contents, Config $config): void
+    {
+        $prefixedLocation = $this->prefixer->prefixPath($path);
+        $this->ensureDirectoryExists(
+            dirname($prefixedLocation),
+            $this->resolveDirectoryVisibility($config->get(Config::OPTION_DIRECTORY_VISIBILITY))
+        );
+
+        error_clear_last();
+        $stream = @fopen($prefixedLocation, 'w+b');
+
+        if ( ! ($stream && false !== stream_copy_to_stream($contents, $stream) && fclose($stream))) {
+            $reason = error_get_last()['message'] ?? '';
+            throw UnableToWriteFile::atLocation($prefixedLocation, $reason);
         }
 
         if ($visibility = $config->get(Config::OPTION_VISIBILITY)) {
@@ -210,7 +217,7 @@ class LocalFilesystemAdapter implements FilesystemAdapter
             $path = $this->prefixer->stripPrefix($fileInfo->getPathname());
             $lastModified = $fileInfo->getMTime();
             $isDirectory = $fileInfo->isDir();
-            $permissions = octdec(substr(sprintf('%o', $fileInfo->getPerms()), -4));
+            $permissions = $fileInfo->getPerms();
             $visibility = $isDirectory ? $this->visibility->inverseForDirectory($permissions) : $this->visibility->inverseForFile($permissions);
 
             yield $isDirectory ? new DirectoryAttributes($path, $visibility, $lastModified) : new FileAttributes(
@@ -288,7 +295,7 @@ class LocalFilesystemAdapter implements FilesystemAdapter
             $mkdirError = error_get_last();
         }
 
-        clearstatcache(true, $dirname);
+        clearstatcache(false, $dirname);
 
         if ( ! is_dir($dirname)) {
             $errorMessage = isset($mkdirError['message']) ? $mkdirError['message'] : '';

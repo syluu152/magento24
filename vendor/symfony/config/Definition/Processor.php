@@ -24,6 +24,8 @@ class Processor
      * Processes an array of configurations.
      *
      * @param array $configs An array of configuration items to process
+     *
+     * @return array The processed configuration
      */
     public function process(NodeInterface $configTree, array $configs): array
     {
@@ -40,6 +42,8 @@ class Processor
      * Processes an array of configurations.
      *
      * @param array $configs An array of configuration items to process
+     *
+     * @return array The processed configuration
      */
     public function processConfiguration(ConfigurationInterface $configuration, array $configs): array
     {

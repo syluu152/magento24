@@ -6,9 +6,9 @@ use Psr\Log\NullLogger;
 use Vault\AuthenticationStrategies\TokenAuthenticationStrategy;
 use Vault\Client;
 use VCR\VCR;
-use Laminas\Diactoros\RequestFactory;
-use Laminas\Diactoros\StreamFactory;
-use Laminas\Diactoros\Uri;
+use Zend\Diactoros\RequestFactory;
+use Zend\Diactoros\StreamFactory;
+use Zend\Diactoros\Uri;
 
 class TokenAuthenticationStrategyTest extends Unit
 {

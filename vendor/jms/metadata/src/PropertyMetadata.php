@@ -14,8 +14,6 @@ namespace Metadata;
  */
 class PropertyMetadata implements \Serializable
 {
-    use SerializationHelper;
-
     /**
      * @var string
      */
@@ -32,16 +30,32 @@ class PropertyMetadata implements \Serializable
         $this->name = $name;
     }
 
-    protected function serializeToArray(): array
+    /**
+     * @return string
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.UselessReturnAnnotation
+     */
+    public function serialize()
     {
-        return [
+        return serialize([
             $this->class,
             $this->name,
-        ];
+        ]);
     }
 
-    protected function unserializeFromArray(array $data): void
+    /**
+     * @param string $str
+     *
+     * @return void
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.UselessReturnAnnotation
+     */
+    public function unserialize($str)
     {
-        [$this->class, $this->name] = $data;
+        [$this->class, $this->name] = unserialize($str);
     }
 }

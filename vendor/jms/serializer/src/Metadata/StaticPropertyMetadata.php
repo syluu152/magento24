@@ -39,21 +39,33 @@ class StaticPropertyMetadata extends PropertyMetadata
     {
     }
 
-    protected function serializeToArray(): array
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
     {
-        return [
+        return serialize([
             $this->value,
-            parent::serializeToArray(),
-        ];
+            parent::serialize(),
+        ]);
     }
 
-    protected function unserializeFromArray(array $data): void
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($str)
+    {
+        $parentStr = $this->unserializeProperties($str);
+        [$this->class, $this->name] = unserialize($parentStr);
+    }
+
+    protected function unserializeProperties(string $str): string
     {
         [
             $this->value,
-            $parentData,
-        ] = $data;
+            $parentStr,
+        ] = unserialize($str);
 
-        parent::unserializeFromArray($parentData);
+        return parent::unserializeProperties($parentStr);
     }
 }

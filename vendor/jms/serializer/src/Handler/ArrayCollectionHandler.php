@@ -9,40 +9,22 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\PersistentCollection as MongoPersistentCollection;
 use Doctrine\ODM\PHPCR\PersistentCollection as PhpcrPersistentCollection;
 use Doctrine\ORM\PersistentCollection as OrmPersistentCollection;
-use Doctrine\Persistence\ManagerRegistry;
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\GraphNavigatorInterface;
-use JMS\Serializer\Metadata\PropertyMetadata;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 use JMS\Serializer\Visitor\SerializationVisitorInterface;
 
 final class ArrayCollectionHandler implements SubscribingHandlerInterface
 {
-    public const COLLECTION_TYPES = [
-        'ArrayCollection',
-        ArrayCollection::class,
-        OrmPersistentCollection::class,
-        MongoPersistentCollection::class,
-        PhpcrPersistentCollection::class,
-    ];
-
     /**
      * @var bool
      */
     private $initializeExcluded;
 
-    /**
-     * @var ManagerRegistry|null
-     */
-    private $managerRegistry;
-
-    public function __construct(
-        bool $initializeExcluded = true,
-        ?ManagerRegistry $managerRegistry = null
-    ) {
+    public function __construct(bool $initializeExcluded = true)
+    {
         $this->initializeExcluded = $initializeExcluded;
-        $this->managerRegistry = $managerRegistry;
     }
 
     /**
@@ -52,8 +34,15 @@ final class ArrayCollectionHandler implements SubscribingHandlerInterface
     {
         $methods = [];
         $formats = ['json', 'xml', 'yml'];
+        $collectionTypes = [
+            'ArrayCollection',
+            ArrayCollection::class,
+            OrmPersistentCollection::class,
+            MongoPersistentCollection::class,
+            PhpcrPersistentCollection::class,
+        ];
 
-        foreach (self::COLLECTION_TYPES as $type) {
+        foreach ($collectionTypes as $type) {
             foreach ($formats as $format) {
                 $methods[] = [
                     'direction' => GraphNavigatorInterface::DIRECTION_SERIALIZATION,
@@ -103,59 +92,11 @@ final class ArrayCollectionHandler implements SubscribingHandlerInterface
     /**
      * @param mixed $data
      */
-    public function deserializeCollection(
-        DeserializationVisitorInterface $visitor,
-        $data,
-        array $type,
-        DeserializationContext $context
-    ): Collection {
+    public function deserializeCollection(DeserializationVisitorInterface $visitor, $data, array $type, DeserializationContext $context): ArrayCollection
+    {
         // See above.
         $type['name'] = 'array';
 
-        $elements = new ArrayCollection($visitor->visitArray($data, $type));
-
-        if (null === $this->managerRegistry) {
-            return $elements;
-        }
-
-        $propertyMetadata = $context->getMetadataStack()->top();
-        if (!$propertyMetadata instanceof PropertyMetadata) {
-            return $elements;
-        }
-
-        $objectManager = $this->managerRegistry->getManagerForClass($propertyMetadata->class);
-        if (null === $objectManager) {
-            return $elements;
-        }
-
-        $classMetadata = $objectManager->getClassMetadata($propertyMetadata->class);
-        $currentObject = $visitor->getCurrentObject();
-
-        if (
-            array_key_exists('name', $propertyMetadata->type)
-            && in_array($propertyMetadata->type['name'], self::COLLECTION_TYPES)
-            && $classMetadata->isCollectionValuedAssociation($propertyMetadata->name)
-        ) {
-            $existingCollection = $classMetadata->getFieldValue($currentObject, $propertyMetadata->name);
-            if (!$existingCollection instanceof OrmPersistentCollection) {
-                return $elements;
-            }
-
-            foreach ($elements as $element) {
-                if (!$existingCollection->contains($element)) {
-                    $existingCollection->add($element);
-                }
-            }
-
-            foreach ($existingCollection as $collectionElement) {
-                if (!$elements->contains($collectionElement)) {
-                    $existingCollection->removeElement($collectionElement);
-                }
-            }
-
-            return $existingCollection;
-        }
-
-        return $elements;
+        return new ArrayCollection($visitor->visitArray($data, $type));
     }
 }

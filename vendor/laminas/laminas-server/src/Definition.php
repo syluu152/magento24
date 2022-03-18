@@ -10,7 +10,6 @@ namespace Laminas\Server;
 
 use Countable;
 use Iterator;
-use ReturnTypeWillChange;
 
 /**
  * Server methods metadata
@@ -192,7 +191,6 @@ class Definition implements Countable, Iterator
      *
      * @return int
      */
-    #[ReturnTypeWillChange]
     public function count()
     {
         return count($this->methods);
@@ -203,7 +201,6 @@ class Definition implements Countable, Iterator
      *
      * @return Method\Definition
      */
-    #[ReturnTypeWillChange]
     public function current()
     {
         return current($this->methods);
@@ -214,7 +211,6 @@ class Definition implements Countable, Iterator
      *
      * @return int|string
      */
-    #[ReturnTypeWillChange]
     public function key()
     {
         return key($this->methods);
@@ -225,7 +221,6 @@ class Definition implements Countable, Iterator
      *
      * @return Method\Definition
      */
-    #[ReturnTypeWillChange]
     public function next()
     {
         return next($this->methods);
@@ -236,7 +231,6 @@ class Definition implements Countable, Iterator
      *
      * @return void
      */
-    #[ReturnTypeWillChange]
     public function rewind()
     {
         reset($this->methods);
@@ -247,7 +241,6 @@ class Definition implements Countable, Iterator
      *
      * @return bool
      */
-    #[ReturnTypeWillChange]
     public function valid()
     {
         return (bool) $this->current();

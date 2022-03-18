@@ -36,7 +36,7 @@ class ClosureLoader extends Loader
      */
     public function load($resource, string $type = null)
     {
-        return $resource($this->container, $this->env);
+        $resource($this->container, $this->env);
     }
 
     /**

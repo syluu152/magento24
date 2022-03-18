@@ -179,13 +179,6 @@ final class XmlSerializationVisitor extends AbstractVisitor implements Serializa
      */
     public function visitDouble(float $data, array $type)
     {
-        $percision = $type['params'][0] ?? null;
-        if (is_int($percision)) {
-            $roundMode = $type['params'][1] ?? null;
-            $roundMode = $this->mapRoundMode($roundMode);
-            $data = round($data, $percision, $roundMode);
-        }
-
         return $this->document->createTextNode(var_export((float) $data, true));
     }
 

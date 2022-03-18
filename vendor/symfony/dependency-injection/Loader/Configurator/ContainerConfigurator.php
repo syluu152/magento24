@@ -174,9 +174,9 @@ function tagged_iterator(string $tag, string $indexAttribute = null, string $def
 /**
  * Creates a service locator by tag name.
  */
-function tagged_locator(string $tag, string $indexAttribute = null, string $defaultIndexMethod = null, string $defaultPriorityMethod = null): ServiceLocatorArgument
+function tagged_locator(string $tag, string $indexAttribute = null, string $defaultIndexMethod = null): ServiceLocatorArgument
 {
-    return new ServiceLocatorArgument(new TaggedIteratorArgument($tag, $indexAttribute, $defaultIndexMethod, true, $defaultPriorityMethod));
+    return new ServiceLocatorArgument(new TaggedIteratorArgument($tag, $indexAttribute, $defaultIndexMethod, true));
 }
 
 /**
@@ -201,12 +201,4 @@ function abstract_arg(string $description): AbstractArgument
 function env(string $name): EnvConfigurator
 {
     return new EnvConfigurator($name);
-}
-
-/**
- * Creates a closure service reference.
- */
-function service_closure(string $serviceId): ClosureReferenceConfigurator
-{
-    return new ClosureReferenceConfigurator($serviceId);
 }

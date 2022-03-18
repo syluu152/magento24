@@ -4,14 +4,25 @@ declare(strict_types=1);
 
 namespace JMS\Serializer\Twig;
 
+use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 /**
  * @author Asmir Mustafic <goetas@gmail.com>
  */
-final class SerializerRuntimeExtension extends SerializerBaseExtension
+final class SerializerRuntimeExtension extends AbstractExtension
 {
+    /**
+     * @return string
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
+     */
+    public function getName()
+    {
+        return 'jms_serializer';
+    }
+
     /**
      * @return TwigFilter[]
      *
@@ -20,7 +31,7 @@ final class SerializerRuntimeExtension extends SerializerBaseExtension
     public function getFilters()
     {
         return [
-            new TwigFilter($this->serializationFunctionsPrefix . 'serialize', [SerializerRuntimeHelper::class, 'serialize']),
+            new TwigFilter('serialize', [SerializerRuntimeHelper::class, 'serialize']),
         ];
     }
 
@@ -32,7 +43,7 @@ final class SerializerRuntimeExtension extends SerializerBaseExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction($this->serializationFunctionsPrefix . 'serialization_context', '\JMS\Serializer\SerializationContext::create'),
+            new TwigFunction('serialization_context', '\JMS\Serializer\SerializationContext::create'),
         ];
     }
 }

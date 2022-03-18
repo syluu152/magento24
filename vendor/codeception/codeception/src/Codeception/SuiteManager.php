@@ -215,7 +215,7 @@ class SuiteManager
         if (empty($envs)) {
             return true;
         }
-        $currentEnvironments = $this->env === null ? [] : explode(',', $this->env);
+        $currentEnvironments = explode(',', $this->env);
         foreach ($envs as $envList) {
             $envList = explode(',', $envList);
             if (count($envList) == count(array_intersect($currentEnvironments, $envList))) {

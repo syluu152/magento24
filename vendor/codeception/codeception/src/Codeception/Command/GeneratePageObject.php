@@ -42,7 +42,7 @@ class GeneratePageObject extends Command
 
         if (!$class) {
             $class = $suite;
-            $suite = '';
+            $suite = null;
         }
 
         $conf = $suite

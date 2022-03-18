@@ -1,6 +1,10 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * @see       https://github.com/laminas/laminas-modulemanager for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-modulemanager/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-modulemanager/blob/master/LICENSE.md New BSD License
+ */
 
 namespace Laminas\ModuleManager\Listener;
 
@@ -25,6 +29,7 @@ use function sprintf;
 
 class ServiceListener implements ServiceListenerInterface
 {
+
     /**
      * Service manager post-configuration.
      *
@@ -32,7 +37,9 @@ class ServiceListener implements ServiceListenerInterface
      */
     protected $configuredServiceManager;
 
-    /** @var callable[] */
+    /**
+     * @var callable[]
+     */
     protected $listeners = [];
 
     /**
@@ -49,10 +56,15 @@ class ServiceListener implements ServiceListenerInterface
      */
     protected $defaultServiceConfig;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $serviceManagers = [];
 
-    /** @param null|array $configuration */
+    /**
+     * @param ServiceManager $serviceManager
+     * @param null|array $configuration
+     */
     public function __construct(ServiceManager $serviceManager, $configuration = null)
     {
         $this->defaultServiceManager = $serviceManager;
@@ -72,7 +84,9 @@ class ServiceListener implements ServiceListenerInterface
         return $this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * @inheritDoc
+     */
     public function addServiceManager($serviceManager, $key, $moduleInterface, $method)
     {
         if (is_string($serviceManager)) {
@@ -82,7 +96,7 @@ class ServiceListener implements ServiceListenerInterface
         } else {
             throw new Exception\RuntimeException(sprintf(
                 'Invalid service manager provided, expected ServiceManager or string, %s provided',
-                is_object($serviceManager) ? get_class($serviceManager) : gettype($serviceManager)
+                (is_object($serviceManager) ? get_class($serviceManager) : gettype($serviceManager))
             ));
         }
 
@@ -102,6 +116,7 @@ class ServiceListener implements ServiceListenerInterface
     }
 
     /**
+     * @param  EventManagerInterface $events
      * @param  int $priority
      * @return ServiceListener
      */
@@ -112,7 +127,10 @@ class ServiceListener implements ServiceListenerInterface
         return $this;
     }
 
-    /** @return void */
+    /**
+     * @param  EventManagerInterface $events
+     * @return void
+     */
     public function detach(EventManagerInterface $events)
     {
         foreach ($this->listeners as $key => $listener) {
@@ -134,6 +152,7 @@ class ServiceListener implements ServiceListenerInterface
      * The interface and method name can be set by adding a new service manager
      * via the addServiceManager() method.
      *
+     * @param  ModuleEvent $e
      * @return void
      */
     public function onLoadModule(ModuleEvent $e)
@@ -141,8 +160,7 @@ class ServiceListener implements ServiceListenerInterface
         $module = $e->getModule();
 
         foreach ($this->serviceManagers as $key => $sm) {
-            if (
-                ! $module instanceof $sm['module_class_interface']
+            if (! $module instanceof $sm['module_class_interface']
                 && ! method_exists($module, $sm['module_class_method'])
             ) {
                 continue;
@@ -166,7 +184,7 @@ class ServiceListener implements ServiceListenerInterface
             // We are keeping track of which modules provided which configuration to which service managers.
             // The actual merging takes place later. Doing it this way will enable us to provide more powerful
             // debugging tools for showing which modules overrode what.
-            $fullname = $e->getModuleName() . '::' . $sm['module_class_method'] . '()'; /** @codingStandardsIgnoreLine */
+            $fullname = $e->getModuleName() . '::' . $sm['module_class_method'] . '()';
             $this->serviceManagers[$key]['configuration'][$fullname] = $config;
         }
     }
@@ -178,6 +196,7 @@ class ServiceListener implements ServiceListenerInterface
      * key, it will be passed to a ServiceManager Config object, and
      * used to configure the service manager.
      *
+     * @param  ModuleEvent $e
      * @throws Exception\RuntimeException
      * @return void
      */
@@ -227,9 +246,9 @@ class ServiceListener implements ServiceListenerInterface
      * @param ServiceConfigInterface|string $config ServiceConfigInterface or
      *     class name resolving to one.
      * @return array
-     * @throws Exception\RuntimeException If resolved class name is not a
+     * @throws Exception\RuntimeException if resolved class name is not a
      *     ServiceConfigInterface implementation.
-     * @throws Exception\RuntimeException Under laminas-servicemanager v2 if the
+     * @throws Exception\RuntimeException under laminas-servicemanager v2 if the
      *     configuration instance is not specifically a ServiceConfig, as there
      *     is no way to extract service configuration in that case.
      */
@@ -237,13 +256,13 @@ class ServiceListener implements ServiceListenerInterface
     {
         if (is_string($config) && class_exists($config)) {
             $class  = $config;
-            $config = new $class();
+            $config = new $class;
         }
 
         if (! $config instanceof ServiceConfigInterface) {
             throw new Exception\RuntimeException(sprintf(
                 'Invalid service manager configuration class provided; received "%s", expected an instance of %s',
-                is_object($config) ? get_class($config) : (is_scalar($config) ? $config : gettype($config)),
+                (is_object($config) ? get_class($config) : (is_scalar($config) ? $config : gettype($config))),
                 ServiceConfigInterface::class
             ));
         }
@@ -258,7 +277,7 @@ class ServiceListener implements ServiceListenerInterface
         if (! $config instanceof ServiceConfig) {
             throw new Exception\RuntimeException(sprintf(
                 'Invalid service manager configuration class provided; received "%s", expected an instance of %s',
-                is_object($config) ? get_class($config) : (is_scalar($config) ? $config : gettype($config)),
+                (is_object($config) ? get_class($config) : (is_scalar($config) ? $config : gettype($config))),
                 ServiceConfig::class
             ));
         }
@@ -286,8 +305,7 @@ class ServiceListener implements ServiceListenerInterface
      */
     private function mergeServiceConfiguration($key, array $metadata, array $config)
     {
-        if (
-            isset($config[$metadata['config_key']])
+        if (isset($config[$metadata['config_key']])
             && is_array($config[$metadata['config_key']])
             && ! empty($config[$metadata['config_key']])
         ) {

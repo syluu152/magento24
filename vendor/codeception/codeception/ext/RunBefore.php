@@ -122,19 +122,8 @@ class RunBefore extends Extension
     private function checkProcesses()
     {
         foreach ($this->processes as $index => $process) {
-            /**
-             * @var Process $processInstance
-             */
-            $processInstance = $process['instance'];
-
-            if (!$this->isRunning($processInstance)) {
-                if (!$processInstance->isSuccessful()) {
-                    $this->output->debug('[RunBefore] Failed ' . $processInstance->getCommandLine());
-                    $this->output->writeln('<error>' . $processInstance->getErrorOutput() . '</error>');
-                    exit(1);
-                }
-
-                $this->output->debug('[RunBefore] Completed ' . $processInstance->getCommandLine());
+            if (!$this->isRunning($process['instance'])) {
+                $this->output->debug('[RunBefore] Completing ' . $process['instance']->getCommandLine());
                 $this->runFollowingCommand($process['following']);
                 $this->removeProcessFromMonitoring($index);
             }

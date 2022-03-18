@@ -5,9 +5,9 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Vault\AuthenticationStrategies\AppRoleAuthenticationStrategy;
 use Vault\Client;
 use VCR\VCR;
-use Laminas\Diactoros\RequestFactory;
-use Laminas\Diactoros\StreamFactory;
-use Laminas\Diactoros\Uri;
+use Zend\Diactoros\RequestFactory;
+use Zend\Diactoros\StreamFactory;
+use Zend\Diactoros\Uri;
 
 class AppRoleAuthenticationStrategyTest extends Unit
 {

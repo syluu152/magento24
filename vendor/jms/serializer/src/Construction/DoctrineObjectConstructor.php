@@ -13,8 +13,6 @@ use JMS\Serializer\Metadata\ClassMetadata;
 use JMS\Serializer\Metadata\PropertyMetadata;
 use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 
-use function is_array;
-
 /**
  * Doctrine object constructor for new (or existing) objects during deserialization.
  */
@@ -81,7 +79,7 @@ final class DoctrineObjectConstructor implements ObjectConstructorInterface
         }
 
         // Managed entity, check for proxy load
-        if (!is_array($data) && !(is_object($data) && 'SimpleXMLElement' === get_class($data))) {
+        if (!\is_array($data) && !(is_object($data) && 'SimpleXMLElement' === get_class($data))) {
             // Single identifier, load proxy
             return $objectManager->getReference($metadata->name, $data);
         }

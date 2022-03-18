@@ -24,10 +24,10 @@ class ResponseBuilder
     {
         $rawData = json_decode((string)$response->getBody(), true) ?: [];
         $data = ModelHelper::camelize($rawData);
-        $data['data'] = $rawData['data'] ?? [];
+        $data['data'] = ArrayHelper::getValue($rawData, 'data', []);
 
-        if (array_key_exists('auth', $data) && $data['auth']) {
-            $data['auth'] = new Auth($data['auth']);
+        if ($auth = ArrayHelper::getValue($data, 'auth')) {
+            $data['auth'] = new Auth($auth);
         }
 
         return new Response($data);

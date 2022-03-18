@@ -12,7 +12,6 @@ class Example implements \ArrayAccess, \Countable, \IteratorAggregate
         $this->data = $data;
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * Whether a offset exists
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
@@ -30,7 +29,6 @@ class Example implements \ArrayAccess, \Countable, \IteratorAggregate
         return array_key_exists($offset, $this->data);
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * Offset to retrieve
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
@@ -48,7 +46,6 @@ class Example implements \ArrayAccess, \Countable, \IteratorAggregate
         return $this->data[$offset];
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * Offset to set
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
@@ -66,7 +63,6 @@ class Example implements \ArrayAccess, \Countable, \IteratorAggregate
         $this->data[$offset] = $value;
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * Offset to unset
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
@@ -81,7 +77,6 @@ class Example implements \ArrayAccess, \Countable, \IteratorAggregate
         unset($this->data[$offset]);
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * Count elements of an object
      * @link http://php.net/manual/en/countable.count.php
@@ -96,7 +91,6 @@ class Example implements \ArrayAccess, \Countable, \IteratorAggregate
         return count($this->data);
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * Retrieve an external iterator
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php

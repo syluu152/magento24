@@ -38,21 +38,30 @@ class ExpressionPropertyMetadata extends PropertyMetadata
     /**
      * {@inheritdoc}
      */
-    protected function serializeToArray(): array
+    public function serialize()
     {
-        return [
+        return serialize([
             $this->expression,
-            parent::serializeToArray(),
-        ];
+            parent::serialize(),
+        ]);
     }
 
-    protected function unserializeFromArray(array $data): void
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($str)
+    {
+        $parentStr = $this->unserializeProperties($str);
+        [$this->class, $this->name] = unserialize($parentStr);
+    }
+
+    protected function unserializeProperties(string $str): string
     {
         [
             $this->expression,
-            $parentData,
-        ] = $data;
+            $parentStr,
+        ] = unserialize($str);
 
-        parent::unserializeFromArray($parentData);
+        return parent::unserializeProperties($parentStr);
     }
 }

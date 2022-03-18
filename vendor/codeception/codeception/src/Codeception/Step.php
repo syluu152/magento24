@@ -79,27 +79,10 @@ abstract class Step
         return $this->action;
     }
 
-    /**
-     * @deprecated To be removed in Codeception 5.0
-     */
     public function getLine()
     {
         if ($this->line && $this->file) {
             return codecept_relative_path($this->file) . ':' . $this->line;
-        }
-    }
-
-    public function getFilePath()
-    {
-        if ($this->file) {
-            return codecept_relative_path($this->file);
-        }
-    }
-
-    public function getLineNumber()
-    {
-        if ($this->line) {
-            return $this->line;
         }
     }
 
@@ -243,7 +226,7 @@ abstract class Step
             return sprintf('%s %s', ucfirst($this->prefix), $this->humanize($this->getAction()));
         }
 
-        return sprintf('%s %s <span style="color: %s">%s</span>', ucfirst($this->prefix), htmlspecialchars($this->humanize($this->getAction()), ENT_QUOTES | ENT_SUBSTITUTE), $highlightColor, htmlspecialchars($this->getHumanizedArguments(0), ENT_QUOTES | ENT_SUBSTITUTE));
+        return sprintf('%s %s <span style="color: %s">%s</span>', ucfirst($this->prefix), htmlspecialchars($this->humanize($this->getAction())), $highlightColor, htmlspecialchars($this->getHumanizedArguments(0)));
     }
 
     public function getHumanizedActionWithoutArguments()

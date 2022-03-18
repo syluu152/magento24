@@ -34,14 +34,14 @@ interface LoaderInterface
      *
      * @param mixed $resource A resource
      *
-     * @return bool
+     * @return bool True if this class supports the given resource, false otherwise
      */
     public function supports($resource, string $type = null);
 
     /**
      * Gets the loader resolver.
      *
-     * @return LoaderResolverInterface
+     * @return LoaderResolverInterface A LoaderResolverInterface instance
      */
     public function getResolver();
 

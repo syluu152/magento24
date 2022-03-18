@@ -1,7 +1,14 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
+ */
+
 namespace Laminas\Mail\Storage;
 
+use Laminas\Config\Config;
 use Laminas\Stdlib\ErrorHandler;
 
 class Mbox extends AbstractStorage
@@ -119,21 +126,16 @@ class Mbox extends AbstractStorage
             return new $this->messageClass($messageClassParams);
         }
 
-        /** @todo Uncomment once we know how to count body lines */
-        // $bodyLines = 0;
+        $bodyLines = 0; // TODO: need a way to change that
 
         $message = $this->getRawHeader($id);
-
-        /* Once we know how to count body lines, we should uncomment the
-         * following, which would append the body content to the headers.
-         *
+        // file pointer is after headers now
         if ($bodyLines) {
             $message .= "\n";
             while ($bodyLines-- && ftell($this->fh) < $this->positions[$id - 1]['end']) {
                 $message .= fgets($this->fh);
             }
         }
-         */
 
         return new $this->messageClass(['handler' => $this, 'id' => $id, 'headers' => $message]);
     }
@@ -188,17 +190,19 @@ class Mbox extends AbstractStorage
      */
     public function __construct($params)
     {
-        $params = ParamsNormalizer::normalizeParams($params);
+        if (is_array($params)) {
+            $params = (object) $params;
+        }
 
-        if (! isset($params['filename'])) {
+        if (! isset($params->filename)) {
             throw new Exception\InvalidArgumentException('no valid filename given in params');
         }
 
-        if (isset($params['messageEOL'])) {
-            $this->messageEOL = (string) $params['messageEOL'];
+        if (isset($params->messageEOL)) {
+            $this->messageEOL = (string) $params->messageEOL;
         }
 
-        $this->openMboxFile((string) $params['filename']);
+        $this->openMboxFile($params->filename);
         $this->has['top']      = true;
         $this->has['uniqueid'] = false;
     }

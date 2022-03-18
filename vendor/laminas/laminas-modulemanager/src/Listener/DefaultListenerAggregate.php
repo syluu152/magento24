@@ -1,6 +1,10 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * @see       https://github.com/laminas/laminas-modulemanager for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-modulemanager/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-modulemanager/blob/master/LICENSE.md New BSD License
+ */
 
 namespace Laminas\ModuleManager\Listener;
 
@@ -8,18 +12,26 @@ use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\ListenerAggregateInterface;
 use Laminas\ModuleManager\ModuleEvent;
 
+/**
+ * Default listener aggregate
+ */
 class DefaultListenerAggregate extends AbstractListener implements
     ListenerAggregateInterface
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $listeners = [];
 
-    /** @var ConfigMergerInterface */
+    /**
+     * @var ConfigMergerInterface
+     */
     protected $configListener;
 
     /**
      * Attach one or more listeners
      *
+     * @param  EventManagerInterface $events
      * @param  int $priority
      * @return DefaultListenerAggregate
      */
@@ -37,7 +49,7 @@ class DefaultListenerAggregate extends AbstractListener implements
             $moduleLoaderListener->attach($events);
             $this->listeners[] = $moduleLoaderListener;
         }
-        $this->listeners[] = $events->attach(ModuleEvent::EVENT_LOAD_MODULE_RESOLVE, new ModuleResolverListener());
+        $this->listeners[] = $events->attach(ModuleEvent::EVENT_LOAD_MODULE_RESOLVE, new ModuleResolverListener);
 
         if ($options->useLaminasLoader()) {
             // High priority, because most other loadModule listeners will assume
@@ -53,7 +65,7 @@ class DefaultListenerAggregate extends AbstractListener implements
         if ($options->getCheckDependencies()) {
             $this->listeners[] = $events->attach(
                 ModuleEvent::EVENT_LOAD_MODULE,
-                new ModuleDependencyCheckerListener(),
+                new ModuleDependencyCheckerListener,
                 8000
             );
         }
@@ -71,6 +83,7 @@ class DefaultListenerAggregate extends AbstractListener implements
     /**
      * Detach all previously attached listeners
      *
+     * @param  EventManagerInterface $events
      * @return void
      */
     public function detach(EventManagerInterface $events)
@@ -103,6 +116,7 @@ class DefaultListenerAggregate extends AbstractListener implements
     /**
      * Set the config merger to use.
      *
+     * @param  ConfigMergerInterface $configListener
      * @return DefaultListenerAggregate
      */
     public function setConfigListener(ConfigMergerInterface $configListener)

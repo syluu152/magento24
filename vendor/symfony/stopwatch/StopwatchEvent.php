@@ -67,7 +67,7 @@ class StopwatchEvent
     /**
      * Gets the category.
      *
-     * @return string
+     * @return string The category
      */
     public function getCategory()
     {
@@ -75,9 +75,9 @@ class StopwatchEvent
     }
 
     /**
-     * Gets the origin in milliseconds.
+     * Gets the origin.
      *
-     * @return float
+     * @return float The origin in milliseconds
      */
     public function getOrigin()
     {
@@ -147,7 +147,7 @@ class StopwatchEvent
     /**
      * Gets all event periods.
      *
-     * @return StopwatchPeriod[]
+     * @return StopwatchPeriod[] An array of StopwatchPeriod instances
      */
     public function getPeriods()
     {
@@ -155,9 +155,9 @@ class StopwatchEvent
     }
 
     /**
-     * Gets the relative time of the start of the first period in milliseconds.
+     * Gets the relative time of the start of the first period.
      *
-     * @return int|float
+     * @return int|float The time (in milliseconds)
      */
     public function getStartTime()
     {
@@ -173,9 +173,9 @@ class StopwatchEvent
     }
 
     /**
-     * Gets the relative time of the end of the last period in milliseconds.
+     * Gets the relative time of the end of the last period.
      *
-     * @return int|float
+     * @return int|float The time (in milliseconds)
      */
     public function getEndTime()
     {
@@ -185,9 +185,9 @@ class StopwatchEvent
     }
 
     /**
-     * Gets the duration of the events in milliseconds (including all periods).
+     * Gets the duration of the events (including all periods).
      *
-     * @return int|float
+     * @return int|float The duration (in milliseconds)
      */
     public function getDuration()
     {
@@ -207,9 +207,9 @@ class StopwatchEvent
     }
 
     /**
-     * Gets the max memory usage of all periods in bytes.
+     * Gets the max memory usage of all periods.
      *
-     * @return int
+     * @return int The memory usage (in bytes)
      */
     public function getMemory()
     {
@@ -224,9 +224,9 @@ class StopwatchEvent
     }
 
     /**
-     * Return the current time relative to origin in milliseconds.
+     * Return the current time relative to origin.
      *
-     * @return float
+     * @return float Time in ms
      */
     protected function getNow()
     {

@@ -137,7 +137,7 @@ class ArgvInput extends Input
         $name = substr($token, 2);
 
         if (false !== $pos = strpos($name, '=')) {
-            if ('' === $value = substr($name, $pos + 1)) {
+            if (0 === \strlen($value = substr($name, $pos + 1))) {
                 array_unshift($this->parsed, $value);
             }
             $this->addLongOption(substr($name, 0, $pos), $value);

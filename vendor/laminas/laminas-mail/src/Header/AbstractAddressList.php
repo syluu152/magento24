@@ -1,34 +1,24 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
+ */
+
 namespace Laminas\Mail\Header;
 
 use Laminas\Mail\Address;
 use Laminas\Mail\AddressList;
 use Laminas\Mail\Headers;
-use Laminas\Mail\Storage\Exception\RuntimeException;
-use Throwable;
+use TrueBV\Exception\OutOfBoundsException;
+use TrueBV\Punycode;
 
 /**
  * Base class for headers composing address lists (to, from, cc, bcc, reply-to)
  */
 abstract class AbstractAddressList implements HeaderInterface
 {
-    private const IDNA_ERROR_MAP = [
-        IDNA_ERROR_EMPTY_LABEL => 'empty label',
-        IDNA_ERROR_LABEL_TOO_LONG => 'label too long',
-        IDNA_ERROR_DOMAIN_NAME_TOO_LONG => 'domain name too long',
-        IDNA_ERROR_LEADING_HYPHEN => 'leading hyphen',
-        IDNA_ERROR_TRAILING_HYPHEN => 'trailing hyphen',
-        IDNA_ERROR_HYPHEN_3_4 => 'consecutive hyphens',
-        IDNA_ERROR_LEADING_COMBINING_MARK => 'leading combining mark',
-        IDNA_ERROR_DISALLOWED => 'disallowed',
-        IDNA_ERROR_PUNYCODE => 'invalid punycode encoding',
-        IDNA_ERROR_LABEL_HAS_DOT => 'has dot',
-        IDNA_ERROR_INVALID_ACE_LABEL => 'label not in ASCII encoding',
-        IDNA_ERROR_BIDI => 'fails bidirectional criteria',
-        IDNA_ERROR_CONTEXTJ => 'one or more characters fail CONTEXTJ rule',
-    ];
-
     /**
      * @var AddressList
      */
@@ -50,6 +40,11 @@ abstract class AbstractAddressList implements HeaderInterface
      * @var string lower case field name
      */
     protected static $type;
+
+    /**
+     * @var Punycode|null
+     */
+    private static $punycode;
 
     public static function fromString($headerLine)
     {
@@ -119,26 +114,16 @@ abstract class AbstractAddressList implements HeaderInterface
      * @param string $domainName the UTF-8 encoded email
      * @return string
      */
-    protected function idnToAscii($domainName): string
+    protected function idnToAscii($domainName)
     {
-        $ascii = idn_to_ascii($domainName, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46, $conversionInfo);
-        if (false !== $ascii) {
-            return $ascii;
+        if (null === self::$punycode) {
+            self::$punycode = new Punycode();
         }
-
-        $messages = [];
-        $errors   = (int) $conversionInfo['errors'];
-
-        foreach (self::IDNA_ERROR_MAP as $flag => $message) {
-            if (($flag & $errors) === $flag) {
-                $messages[] = $message;
-            }
+        try {
+            return self::$punycode->encode($domainName);
+        } catch (OutOfBoundsException $e) {
+            return $domainName;
         }
-
-        throw new RuntimeException(sprintf(
-            'Failed encoding domain due to errors: %s',
-            implode(', ', $messages)
-        ));
     }
 
     public function getFieldValue($format = HeaderInterface::FORMAT_RAW)

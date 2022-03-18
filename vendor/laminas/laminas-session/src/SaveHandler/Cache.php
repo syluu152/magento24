@@ -4,12 +4,9 @@ namespace Laminas\Session\SaveHandler;
 
 use Laminas\Cache\Storage\ClearExpiredInterface as ClearExpiredCacheStorage;
 use Laminas\Cache\Storage\StorageInterface as CacheStorage;
-use ReturnTypeWillChange;
 
 /**
  * Cache session save handler
- *
- * @see ReturnTypeWillChange
  */
 class Cache implements SaveHandlerInterface
 {
@@ -49,7 +46,6 @@ class Cache implements SaveHandlerInterface
      * @param string $name
      * @return bool
      */
-    #[ReturnTypeWillChange]
     public function open($savePath, $name)
     {
         // @todo figure out if we want to use these
@@ -64,7 +60,6 @@ class Cache implements SaveHandlerInterface
      *
      * @return bool
      */
-    #[ReturnTypeWillChange]
     public function close()
     {
         return true;
@@ -76,7 +71,6 @@ class Cache implements SaveHandlerInterface
      * @param string $id
      * @return string
      */
-    #[ReturnTypeWillChange]
     public function read($id)
     {
         return (string) $this->getCacheStorage()->getItem($id);
@@ -89,7 +83,6 @@ class Cache implements SaveHandlerInterface
      * @param string $data
      * @return bool
      */
-    #[ReturnTypeWillChange]
     public function write($id, $data)
     {
         return $this->getCacheStorage()->setItem($id, $data);
@@ -101,7 +94,6 @@ class Cache implements SaveHandlerInterface
      * @param string $id
      * @return bool
      */
-    #[ReturnTypeWillChange]
     public function destroy($id)
     {
         $this->getCacheStorage()->getItem($id, $exists);
@@ -118,7 +110,6 @@ class Cache implements SaveHandlerInterface
      * @param int $maxlifetime
      * @return bool
      */
-    #[ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
         $cache = $this->getCacheStorage();

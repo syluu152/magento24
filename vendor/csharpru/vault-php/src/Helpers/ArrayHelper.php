@@ -37,4 +37,16 @@ class ArrayHelper
 
         return $array;
     }
+
+    /**
+     * @param array $array
+     * @param string $key
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public static function getValue($array, $key, $default = null)
+    {
+        return array_get($array, $key, $default);
+    }
 }

@@ -1,8 +1,13 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
+ */
+
 namespace Laminas\Mail\Header;
 
-use Laminas\Mail\Header\Exception\InvalidArgumentException;
 use Laminas\Mime\Mime;
 
 class GenericHeader implements HeaderInterface, UnstructuredInterface
@@ -10,12 +15,12 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
     /**
      * @var string
      */
-    protected $fieldName;
+    protected $fieldName = null;
 
     /**
      * @var string
      */
-    protected $fieldValue = '';
+    protected $fieldValue = null;
 
     /**
      * Header encoding
@@ -68,15 +73,13 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
      * Constructor
      *
      * @param string $fieldName  Optional
-     * @param null|string $fieldValue Optional
+     * @param string $fieldValue Optional
      */
     public function __construct($fieldName = null, $fieldValue = null)
     {
-        if (! $fieldName) {
-            throw new InvalidArgumentException('Header MUST contain a field name');
+        if ($fieldName) {
+            $this->setFieldName($fieldName);
         }
-
-        $this->setFieldName($fieldName);
 
         if ($fieldValue !== null) {
             $this->setFieldValue($fieldValue);

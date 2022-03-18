@@ -1,6 +1,10 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * @see       https://github.com/laminas/laminas-modulemanager for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-modulemanager/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-modulemanager/blob/master/LICENSE.md New BSD License
+ */
 
 namespace Laminas\ModuleManager\Feature;
 
@@ -16,6 +20,7 @@ interface ConsoleBannerProviderInterface
      * The method is called with active Laminas\Console\Adapter\AdapterInterface that can be used to directly access
      * Console and send output.
      *
+     * @param AdapterInterface $console
      * @return string|null
      */
     public function getConsoleBanner(AdapterInterface $console);

@@ -25,12 +25,13 @@
         }
     },
     "require": {
-        "php": "^7.3 || ~8.0.0 || ~8.1.0",
-        "ext-mbstring": "*"
+        "php": "^7.3 || ~8.0.0",
+        "ext-mbstring": "*",
+        "laminas/laminas-zendframework-bridge": "^1.0"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~1.0.0",
-        "phpunit/phpunit": "^9.5.5"
+        "phpunit/phpunit": "^9.3"
     },
     "suggest": {
         "ext-bcmath": "If using the bcmath functionality",
@@ -59,7 +60,7 @@
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     },
-    "conflict": {
-        "zendframework/zend-math": "*"
+    "replace": {
+        "zendframework/zend-math": "^3.2.0"
     }
 }

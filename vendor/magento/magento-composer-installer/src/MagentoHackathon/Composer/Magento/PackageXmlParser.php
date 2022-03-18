@@ -23,17 +23,16 @@ class PackageXmlParser extends PathTranslationParser
     /**
      * @var array Map of package content types to path prefixes
      */
-    protected $_targets = [];
+    protected $_targets = array();
 
     /**
      * Constructor
      *
      * @param string $moduleDir
      * @param string $packageXmlFile
-     * @param array $translations
-     * @param string $pathSuffix
+     * @param array  $translations
      */
-    public function __construct($moduleDir, $packageXmlFile, $translations = [], $pathSuffix = '')
+    public function __construct($moduleDir, $packageXmlFile, $translations = array(), $pathSuffix)
     {
         parent::__construct($translations, $pathSuffix);
         $this->setModuleDir($moduleDir);
@@ -49,7 +48,7 @@ class PackageXmlParser extends PathTranslationParser
     public function setModuleDir($moduleDir)
     {
         // Remove trailing slash
-        if ($moduleDir !== null) {
+        if (!is_null($moduleDir)) {
             $moduleDir = rtrim($moduleDir, '\\/');
         }
 
@@ -109,7 +108,7 @@ class PackageXmlParser extends PathTranslationParser
      */
     protected function _parseMappings()
     {
-        $map = [];
+        $map = array();
 
         /** @var $package SimpleXMLElement */
         $package = simplexml_load_file($this->getFile()->getPathname());
@@ -121,7 +120,7 @@ class PackageXmlParser extends PathTranslationParser
                     foreach ($target->children() as $child) {
                         foreach ($this->getElementPaths($child) as $elementPath) {
                             $relativePath = $basePath . '/' . $elementPath;
-                            $map[] = [$relativePath, $relativePath];
+                            $map[] = array($relativePath, $relativePath);
                         }
                     }
 
@@ -175,7 +174,7 @@ class PackageXmlParser extends PathTranslationParser
     protected function getElementPaths(\SimpleXMLElement $element) {
         $type = $element->getName();
         $name = $element->attributes()->name;
-        $elementPaths = [];
+        $elementPaths = array();
 
         switch ($type) {
             case 'dir':

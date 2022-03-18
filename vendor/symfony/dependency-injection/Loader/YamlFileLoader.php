@@ -13,6 +13,7 @@ namespace Symfony\Component\DependencyInjection\Loader;
 
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Argument\AbstractArgument;
+use Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
 use Symfony\Component\DependencyInjection\Argument\BoundArgument;
 use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
@@ -126,7 +127,7 @@ class YamlFileLoader extends FileLoader
 
         // empty file
         if (null === $content) {
-            return null;
+            return;
         }
 
         $this->loadContent($content, $path);
@@ -145,8 +146,6 @@ class YamlFileLoader extends FileLoader
                 $this->env = $env;
             }
         }
-
-        return null;
     }
 
     private function loadContent(array $content, string $path)
@@ -709,7 +708,7 @@ class YamlFileLoader extends FileLoader
      *
      * @throws InvalidArgumentException When errors occur
      *
-     * @return string|array|Reference
+     * @return string|array|Reference A parsed callable
      */
     private function parseCallable($callable, string $parameter, string $id, string $file)
     {
@@ -743,7 +742,7 @@ class YamlFileLoader extends FileLoader
     /**
      * Loads a YAML file.
      *
-     * @return array|null
+     * @return array The file content
      *
      * @throws InvalidArgumentException when the given file is not a local file or when it does not exist
      */
@@ -804,7 +803,9 @@ class YamlFileLoader extends FileLoader
     }
 
     /**
-     * @return mixed
+     * Resolves services.
+     *
+     * @return array|string|Reference|ArgumentInterface
      */
     private function resolveServices($value, string $file, bool $isParameter = false)
     {
@@ -900,10 +901,6 @@ class YamlFileLoader extends FileLoader
                 $value[$k] = $this->resolveServices($v, $file, $isParameter);
             }
         } elseif (\is_string($value) && str_starts_with($value, '@=')) {
-            if ($isParameter) {
-                throw new InvalidArgumentException(sprintf('Using expressions in parameters is not allowed in "%s".', $file));
-            }
-
             if (!class_exists(Expression::class)) {
                 throw new \LogicException('The "@=" expression syntax cannot be used without the ExpressionLanguage component. Try running "composer require symfony/expression-language".');
             }

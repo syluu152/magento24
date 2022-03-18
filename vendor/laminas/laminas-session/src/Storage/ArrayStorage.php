@@ -5,7 +5,6 @@ namespace Laminas\Session\Storage;
 use ArrayIterator;
 use Laminas\Session\Exception;
 use Laminas\Stdlib\ArrayObject;
-use ReturnTypeWillChange;
 
 use function array_flip;
 use function array_key_exists;
@@ -20,8 +19,6 @@ use function sprintf;
  *
  * Defines an ArrayObject interface for accessing session storage, with options
  * for setting metadata, locking, and marking as isImmutable.
- *
- * @see ReturnTypeWillChange
  */
 class ArrayStorage extends ArrayObject implements StorageInterface
 {
@@ -90,7 +87,6 @@ class ArrayStorage extends ArrayObject implements StorageInterface
      * @param  mixed                      $value
      * @throws Exception\RuntimeException
      */
-    #[ReturnTypeWillChange]
     public function offsetSet($key, $value)
     {
         if ($this->isImmutable()) {

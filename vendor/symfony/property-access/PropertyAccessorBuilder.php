@@ -44,8 +44,6 @@ class PropertyAccessorBuilder
 
     /**
      * Enables the use of all magic methods by the PropertyAccessor.
-     *
-     * @return $this
      */
     public function enableMagicMethods(): self
     {
@@ -56,8 +54,6 @@ class PropertyAccessorBuilder
 
     /**
      * Disable the use of all magic methods by the PropertyAccessor.
-     *
-     * @return $this
      */
     public function disableMagicMethods(): self
     {
@@ -90,8 +86,6 @@ class PropertyAccessorBuilder
 
     /**
      * Enables the use of "__set" by the PropertyAccessor.
-     *
-     * @return $this
      */
     public function enableMagicSet(): self
     {
@@ -114,8 +108,6 @@ class PropertyAccessorBuilder
 
     /**
      * Disables the use of "__get" by the PropertyAccessor.
-     *
-     * @return $this
      */
     public function disableMagicGet(): self
     {
@@ -126,8 +118,6 @@ class PropertyAccessorBuilder
 
     /**
      * Disables the use of "__set" by the PropertyAccessor.
-     *
-     * @return $this
      */
     public function disableMagicSet(): self
     {
@@ -237,7 +227,7 @@ class PropertyAccessorBuilder
     /**
      * Sets a cache system.
      *
-     * @return $this
+     * @return PropertyAccessorBuilder The builder object
      */
     public function setCacheItemPool(CacheItemPoolInterface $cacheItemPool = null)
     {
@@ -289,7 +279,7 @@ class PropertyAccessorBuilder
     /**
      * Builds and returns a new PropertyAccessor object.
      *
-     * @return PropertyAccessorInterface
+     * @return PropertyAccessorInterface The built PropertyAccessor
      */
     public function getPropertyAccessor()
     {

@@ -14,8 +14,6 @@ namespace Metadata;
  */
 class ClassMetadata implements \Serializable
 {
-    use SerializationHelper;
-
     /**
      * @var string
      */
@@ -76,18 +74,33 @@ class ClassMetadata implements \Serializable
         return true;
     }
 
-    protected function serializeToArray(): array
+    /**
+     * @return string
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.UselessReturnAnnotation
+     */
+    public function serialize()
     {
-        return [
+        return serialize([
             $this->name,
             $this->methodMetadata,
             $this->propertyMetadata,
             $this->fileResources,
             $this->createdAt,
-        ];
+        ]);
     }
 
-    protected function unserializeFromArray(array $data): void
+    /**
+     * @param string $str
+     *
+     * @return void
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.UselessReturnAnnotation
+     */
+    public function unserialize($str)
     {
         [
             $this->name,
@@ -95,6 +108,6 @@ class ClassMetadata implements \Serializable
             $this->propertyMetadata,
             $this->fileResources,
             $this->createdAt,
-        ] = $data;
+        ] = unserialize($str);
     }
 }

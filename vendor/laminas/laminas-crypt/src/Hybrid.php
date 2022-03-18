@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-crypt for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-crypt/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-crypt/blob/master/LICENSE.md New BSD License
+ */
+
 namespace Laminas\Crypt;
 
 use Laminas\Crypt\PublicKey\Rsa\PrivateKey;
@@ -96,7 +102,7 @@ class Hybrid
      * @return string
      * @throws RuntimeException
      */
-    public function decrypt($msg, $privateKey = null, $passPhrase = null, $id = "")
+    public function decrypt($msg, $privateKey = null, $passPhrase = null, $id = null)
     {
         // get the session key
         list($encKeys, $ciphertext) = explode(';', $msg, 2);

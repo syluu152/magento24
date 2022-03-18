@@ -1,6 +1,10 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * @see       https://github.com/laminas/laminas-modulemanager for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-modulemanager/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-modulemanager/blob/master/LICENSE.md New BSD License
+ */
 
 namespace Laminas\ModuleManager\Listener;
 
@@ -9,24 +13,40 @@ use Brick\VarExporter\VarExporter;
 use Laminas\ModuleManager\Listener\Exception\ConfigCannotBeCachedException;
 use Webimpress\SafeWriter\FileWriter;
 
+/**
+ * Abstract listener
+ */
 abstract class AbstractListener
 {
-    /** @var ListenerOptions */
+    /**
+     * @var ListenerOptions
+     */
     protected $options;
 
-    public function __construct(?ListenerOptions $options = null)
+    /**
+     * __construct
+     *
+     * @param  ListenerOptions $options
+     */
+    public function __construct(ListenerOptions $options = null)
     {
-        $options = $options ?: new ListenerOptions();
+        $options = $options ?: new ListenerOptions;
         $this->setOptions($options);
     }
 
-    /** @return ListenerOptions */
+    /**
+     * Get options.
+     *
+     * @return ListenerOptions
+     */
     public function getOptions()
     {
         return $this->options;
     }
 
     /**
+     * Set options.
+     *
      * @param ListenerOptions $options the value to be set
      * @return AbstractListener
      */

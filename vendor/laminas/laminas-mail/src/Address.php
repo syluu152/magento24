@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
+ */
+
 namespace Laminas\Mail;
 
 use Laminas\Validator\EmailAddress as EmailAddressValidator;
@@ -44,8 +50,6 @@ class Address implements Address\AddressInterface
             $email = $matches['email'];
         }
         $email = trim($email);
-        //trim single quotes, because outlook does add single quotes to emails sometimes which is technically not valid
-        $email = trim($email, '\'');
 
         return new static($email, $name, $comment);
     }

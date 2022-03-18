@@ -3,7 +3,6 @@
 namespace Laminas\Session\SaveHandler;
 
 use Laminas\Db\TableGateway\TableGateway;
-use ReturnTypeWillChange;
 
 use function ini_get;
 use function sprintf;
@@ -11,8 +10,6 @@ use function time;
 
 /**
  * DB Table Gateway session save handler
- *
- * @see ReturnTypeWillChange
  */
 class DbTableGateway implements SaveHandlerInterface
 {
@@ -67,7 +64,6 @@ class DbTableGateway implements SaveHandlerInterface
      * @param  string $name
      * @return bool
      */
-    #[ReturnTypeWillChange]
     public function open($savePath, $name)
     {
         $this->sessionSavePath = $savePath;
@@ -82,7 +78,6 @@ class DbTableGateway implements SaveHandlerInterface
      *
      * @return bool
      */
-    #[ReturnTypeWillChange]
     public function close()
     {
         return true;
@@ -95,7 +90,6 @@ class DbTableGateway implements SaveHandlerInterface
      * @param bool $destroyExpired Optional; true by default
      * @return string
      */
-    #[ReturnTypeWillChange]
     public function read($id, $destroyExpired = true)
     {
         $row = $this->tableGateway->select([
@@ -124,7 +118,6 @@ class DbTableGateway implements SaveHandlerInterface
      * @param string $data
      * @return bool
      */
-    #[ReturnTypeWillChange]
     public function write($id, $data)
     {
         $data = [
@@ -156,7 +149,6 @@ class DbTableGateway implements SaveHandlerInterface
      * @param  string $id
      * @return bool
      */
-    #[ReturnTypeWillChange]
     public function destroy($id)
     {
         $this->tableGateway->delete([
@@ -173,7 +165,6 @@ class DbTableGateway implements SaveHandlerInterface
      * @param int $maxlifetime
      * @return true
      */
-    #[ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
         $platform = $this->tableGateway->getAdapter()->getPlatform();

@@ -13,7 +13,6 @@
 namespace Composer\Util;
 
 use Composer\IO\IOInterface;
-use Composer\Util\Platform;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessUtils;
 
@@ -156,15 +155,7 @@ class ProcessExecutor
     }
 
     /**
-     * Escapes a string to be used as a shell argument for Symfony Process.
-     *
-     * This method expects cmd.exe to be started with the /V:ON option, which
-     * enables delayed environment variable expansion using ! as the delimiter.
-     * If this is not the case, any escaped ^^!var^^! will be transformed to
-     * ^!var^! and introduce two unintended carets.
-     *
-     * Modified from https://github.com/johnstevenson/winbox-args
-     * MIT Licensed (c) John Stevenson <john-stevenson@blueyonder.co.uk>
+     * Copy of ProcessUtils::escapeArgument() that is deprecated in Symfony 3.3 and removed in Symfony 4.
      *
      * @param string $argument
      *
@@ -172,34 +163,44 @@ class ProcessExecutor
      */
     private static function escapeArgument($argument)
     {
-        if ('' === ($argument = (string) $argument)) {
-            return escapeshellarg($argument);
+        //Fix for PHP bug #43784 escapeshellarg removes % from given string
+        //Fix for PHP bug #49446 escapeshellarg doesn't work on Windows
+        //@see https://bugs.php.net/bug.php?id=43784
+        //@see https://bugs.php.net/bug.php?id=49446
+        if ('\\' === DIRECTORY_SEPARATOR) {
+            if ((string) $argument === '') {
+                return escapeshellarg($argument);
+            }
+
+            $escapedArgument = '';
+            $quote = false;
+            foreach (preg_split('/(")/', $argument, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE) as $part) {
+                if ('"' === $part) {
+                    $escapedArgument .= '\\"';
+                } elseif (self::isSurroundedBy($part, '%')) {
+                    // Avoid environment variable expansion
+                    $escapedArgument .= '^%"'.substr($part, 1, -1).'"^%';
+                } else {
+                    // escape trailing backslash
+                    if ('\\' === substr($part, -1)) {
+                        $part .= '\\';
+                    }
+                    $quote = true;
+                    $escapedArgument .= $part;
+                }
+            }
+            if ($quote) {
+                $escapedArgument = '"'.$escapedArgument.'"';
+            }
+
+            return $escapedArgument;
         }
 
-        if (!Platform::isWindows()) {
-            return "'".str_replace("'", "'\\''", $argument)."'";
-        }
+        return "'".str_replace("'", "'\\''", $argument)."'";
+    }
 
-        // New lines break cmd.exe command parsing
-        $argument = strtr($argument, "\n", ' ');
-
-        $quote = strpbrk($argument, " \t") !== false;
-        $argument = preg_replace('/(\\\\*)"/', '$1$1\\"', $argument, -1, $dquotes);
-        $meta = $dquotes || preg_match('/%[^%]+%|![^!]+!/', $argument);
-
-        if (!$meta && !$quote) {
-            $quote = strpbrk($argument, '^&|<>()') !== false;
-        }
-
-        if ($quote) {
-            $argument = '"'.preg_replace('/(\\\\*)$/', '$1$1', $argument).'"';
-        }
-
-        if ($meta) {
-            $argument = preg_replace('/(["^&|<>()%])/', '^$1', $argument);
-            $argument = preg_replace('/(!)/', '^^$1', $argument);
-        }
-
-        return $argument;
+    private static function isSurroundedBy($arg, $char)
+    {
+        return 2 < strlen($arg) && $char === $arg[0] && $char === $arg[strlen($arg) - 1];
     }
 }

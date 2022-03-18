@@ -1,12 +1,17 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
+ */
+
 namespace Laminas\Mail\Storage;
 
 use Laminas\Mail\Header\HeaderInterface;
 use Laminas\Mail\Headers;
 use Laminas\Mime;
 use RecursiveIterator;
-use ReturnTypeWillChange;
 
 class Part implements RecursiveIterator, Part\PartInterface
 {
@@ -308,12 +313,12 @@ class Part implements RecursiveIterator, Part\PartInterface
                 if ($header instanceof HeaderInterface) {
                     $return = $header->getFieldValue(HeaderInterface::FORMAT_RAW);
                 } else {
-                    $return = trim(implode(
-                        Mime\Mime::LINEEND,
-                        array_map(static function ($header): string {
-                                return $header->getFieldValue(HeaderInterface::FORMAT_RAW);
-                        }, iterator_to_array($header))
-                    ), Mime\Mime::LINEEND);
+                    $return = '';
+                    foreach ($header as $h) {
+                        $return .= $h->getFieldValue(HeaderInterface::FORMAT_RAW)
+                                 . Mime\Mime::LINEEND;
+                    }
+                    $return = trim($return, Mime\Mime::LINEEND);
                 }
                 break;
             case 'array':
@@ -399,7 +404,6 @@ class Part implements RecursiveIterator, Part\PartInterface
      *
      * @return bool current element has children/is multipart
      */
-    #[ReturnTypeWillChange]
     public function hasChildren()
     {
         $current = $this->current();
@@ -411,7 +415,6 @@ class Part implements RecursiveIterator, Part\PartInterface
      *
      * @return Part same as self::current()
      */
-    #[ReturnTypeWillChange]
     public function getChildren()
     {
         return $this->current();
@@ -422,7 +425,6 @@ class Part implements RecursiveIterator, Part\PartInterface
      *
      * @return bool check if there's a current element
      */
-    #[ReturnTypeWillChange]
     public function valid()
     {
         if ($this->countParts === null) {
@@ -434,7 +436,6 @@ class Part implements RecursiveIterator, Part\PartInterface
     /**
      * implements Iterator::next()
      */
-    #[ReturnTypeWillChange]
     public function next()
     {
         ++$this->iterationPos;
@@ -445,7 +446,6 @@ class Part implements RecursiveIterator, Part\PartInterface
      *
      * @return string key/number of current part
      */
-    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->iterationPos;
@@ -456,7 +456,6 @@ class Part implements RecursiveIterator, Part\PartInterface
      *
      * @return Part current part
      */
-    #[ReturnTypeWillChange]
     public function current()
     {
         return $this->getPart($this->iterationPos);
@@ -465,7 +464,6 @@ class Part implements RecursiveIterator, Part\PartInterface
     /**
      * implements Iterator::rewind()
      */
-    #[ReturnTypeWillChange]
     public function rewind()
     {
         $this->countParts();

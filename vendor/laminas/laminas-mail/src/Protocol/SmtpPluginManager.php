@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-mail for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
+ */
+
 namespace Laminas\Mail\Protocol;
 
 use Laminas\ServiceManager\AbstractPluginManager;
@@ -73,15 +79,15 @@ class SmtpPluginManager extends AbstractPluginManager
     /**
      * Validate a retrieved plugin instance (v3).
      *
-     * @param object|array $instance
+     * @param object $plugin
      * @throws InvalidServiceException
      */
-    public function validate($instance)
+    public function validate($plugin)
     {
-        if (! $instance instanceof $this->instanceOf) {
+        if (! $plugin instanceof $this->instanceOf) {
             throw new InvalidServiceException(sprintf(
                 'Plugin of type %s is invalid; must extend %s',
-                (is_object($instance) ? get_class($instance) : gettype($instance)),
+                (is_object($plugin) ? get_class($plugin) : gettype($plugin)),
                 $this->instanceOf
             ));
         }

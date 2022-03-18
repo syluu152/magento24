@@ -15,9 +15,9 @@ use Vault\Exceptions\RuntimeException;
 use Vault\Models\Token;
 use Vault\ResponseModels\Auth;
 use VCR\VCR;
-use Laminas\Diactoros\RequestFactory;
-use Laminas\Diactoros\StreamFactory;
-use Laminas\Diactoros\Uri;
+use Zend\Diactoros\RequestFactory;
+use Zend\Diactoros\StreamFactory;
+use Zend\Diactoros\Uri;
 
 class ClientTest extends Unit
 {

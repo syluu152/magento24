@@ -25,7 +25,7 @@ class ModmanParser extends PathTranslationParser
      *
      * @param string $moduleDir
      */
-    public function __construct($moduleDir = null, $translations = [], $pathSuffix = '')
+    public function __construct($moduleDir = null, $translations = array(), $pathSuffix)
     {
         parent::__construct($translations, $pathSuffix);
 
@@ -42,7 +42,7 @@ class ModmanParser extends PathTranslationParser
     public function setModuleDir($moduleDir)
     {
         // Remove trailing slash
-        if ($moduleDir !== null) {
+        if (!is_null($moduleDir)) {
             $moduleDir = rtrim($moduleDir, '\\/');
         }
 
@@ -85,7 +85,7 @@ class ModmanParser extends PathTranslationParser
     public function getModmanFile()
     {
         $file = null;
-        if ($this->_moduleDir !== null) {
+        if (!is_null($this->_moduleDir)) {
             $file = new \SplFileObject($this->_moduleDir . '/modman');
         }
         return $file;
@@ -114,13 +114,13 @@ class ModmanParser extends PathTranslationParser
      */
     protected function _parseMappings()
     {
-        $map = [];
+        $map = array();
         $line = 0;
 
         foreach ($this->_file as $row) {
             $line++;
             $row = trim($row);
-            if ('' === $row || in_array($row[0], ['#', '@'])) {
+            if ('' === $row || in_array($row[0], array('#', '@'))) {
                 continue;
             }
             $parts = preg_split('/\s+/', $row, 2, PREG_SPLIT_NO_EMPTY);

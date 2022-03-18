@@ -1,6 +1,10 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * @see       https://github.com/laminas/laminas-modulemanager for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-modulemanager/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-modulemanager/blob/master/LICENSE.md New BSD License
+ */
 
 namespace Laminas\ModuleManager\Listener;
 
@@ -22,31 +26,49 @@ use function is_callable;
 use function is_string;
 use function sprintf;
 
+/**
+ * Config listener
+ */
 class ConfigListener extends AbstractListener implements
     ConfigMergerInterface,
     ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
 
-    public const STATIC_PATH = 'static_path';
-    public const GLOB_PATH   = 'glob_path';
+    const STATIC_PATH = 'static_path';
+    const GLOB_PATH   = 'glob_path';
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $configs = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $mergedConfig = [];
 
-    /** @var Config|null */
+    /**
+     * @var Config|null
+     */
     protected $mergedConfigObject;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $skipConfig = false;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $paths = [];
 
-    public function __construct(?ListenerOptions $options = null)
+    /**
+     * __construct
+     *
+     * @param  ListenerOptions $options
+     */
+    public function __construct(ListenerOptions $options = null)
     {
         parent::__construct($options);
         if ($this->hasCachedConfig()) {
@@ -58,7 +80,9 @@ class ConfigListener extends AbstractListener implements
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(ModuleEvent::EVENT_LOAD_MODULES, [$this, 'onloadModulesPre'], 1000);
@@ -76,6 +100,7 @@ class ConfigListener extends AbstractListener implements
     /**
      * Pass self to the ModuleEvent object early so everyone has access.
      *
+     * @param  ModuleEvent $e
      * @return ConfigListener
      */
     public function onloadModulesPre(ModuleEvent $e)
@@ -88,14 +113,14 @@ class ConfigListener extends AbstractListener implements
     /**
      * Merge the config for each module
      *
+     * @param  ModuleEvent $e
      * @return ConfigListener
      */
     public function onLoadModule(ModuleEvent $e)
     {
         $module = $e->getModule();
 
-        if (
-            ! $module instanceof ConfigProviderInterface
+        if (! $module instanceof ConfigProviderInterface
             && ! is_callable([$module, 'getConfig'])
         ) {
             return $this;
@@ -112,6 +137,7 @@ class ConfigListener extends AbstractListener implements
      *
      * This is only attached if config is not cached.
      *
+     * @param  ModuleEvent $e
      * @return ConfigListener
      */
     public function onMergeConfig(ModuleEvent $e)
@@ -135,6 +161,7 @@ class ConfigListener extends AbstractListener implements
      *
      * This is only attached if config is not cached.
      *
+     * @param  ModuleEvent $e
      * @return ConfigListener
      */
     public function onLoadModules(ModuleEvent $e)
@@ -149,8 +176,7 @@ class ConfigListener extends AbstractListener implements
         $e->setName($originalEventName);
 
         // If enabled, update the config cache
-        if (
-            $this->getOptions()->getConfigCacheEnabled()
+        if ($this->getOptions()->getConfigCacheEnabled()
             && false === $this->skipConfig
         ) {
             $configFile = $this->getOptions()->getConfigCacheFile();
@@ -161,6 +187,8 @@ class ConfigListener extends AbstractListener implements
     }
 
     /**
+     * getMergedConfig
+     *
      * @param  bool $returnConfigAsObject
      * @return mixed
      */
@@ -177,12 +205,14 @@ class ConfigListener extends AbstractListener implements
     }
 
     /**
+     * setMergedConfig
+     *
      * @param  array $config
      * @return ConfigListener
      */
     public function setMergedConfig(array $config)
     {
-        $this->mergedConfig       = $config;
+        $this->mergedConfig = $config;
         $this->mergedConfigObject = null;
         return $this;
     }
@@ -241,6 +271,7 @@ class ConfigListener extends AbstractListener implements
      * @param  Traversable|array $paths
      * @param string $type
      * @throws Exception\InvalidArgumentException
+     * @return ConfigListener
      */
     protected function addConfigPaths($paths, $type)
     {
@@ -254,7 +285,7 @@ class ConfigListener extends AbstractListener implements
                     'Argument passed to %s::%s() must be an array, '
                     . 'implement the Traversable interface, or be an '
                     . 'instance of Laminas\Config\Config. %s given.',
-                    self::class,
+                    __CLASS__,
                     __METHOD__,
                     gettype($paths)
                 )
@@ -280,7 +311,7 @@ class ConfigListener extends AbstractListener implements
             throw new Exception\InvalidArgumentException(
                 sprintf(
                     'Parameter to %s::%s() must be a string; %s given.',
-                    self::class,
+                    __CLASS__,
                     __METHOD__,
                     gettype($path)
                 )
@@ -336,7 +367,7 @@ class ConfigListener extends AbstractListener implements
             case self::GLOB_PATH:
                 // We want to keep track of where each value came from so we don't
                 // use ConfigFactory::fromFiles() since it does merging internally.
-                foreach (Glob::glob($path, Glob::GLOB_BRACE, true) as $file) {
+                foreach (Glob::glob($path, Glob::GLOB_BRACE) as $file) {
                     $this->addConfig($file, ConfigFactory::fromFile($file));
                 }
                 break;
@@ -345,11 +376,12 @@ class ConfigListener extends AbstractListener implements
         return $this;
     }
 
-    /** @return bool */
+    /**
+     * @return bool
+     */
     protected function hasCachedConfig()
     {
-        if (
-            ($this->getOptions()->getConfigCacheEnabled())
+        if (($this->getOptions()->getConfigCacheEnabled())
             && (file_exists($this->getOptions()->getConfigCacheFile()))
         ) {
             return true;
@@ -357,7 +389,9 @@ class ConfigListener extends AbstractListener implements
         return false;
     }
 
-    /** @return mixed */
+    /**
+     * @return mixed
+     */
     protected function getCachedConfig()
     {
         return include $this->getOptions()->getConfigCacheFile();
