@@ -1,0 +1,35 @@
+<?php
+/*
+ *  @author  Tigren Solutions <info@tigren.com>
+ *   @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>. All rights reserved.
+ *  @license  Open Software License (“OSL”) v. 3.0
+ */
+
+/** @var Detail $block */
+
+use Tigren\SimpleBlog\Block\Detail;
+
+?>
+<?php
+$id = $block->getRequest()->getParam('id');
+$blogDetail = $block->getDetailBlog($id);
+?>
+<div class="post-content">
+    <table style="width:100%">
+        <tr>
+            <th><?php echo __('Title') ?></th>
+            <th><?php echo __('Image') ?></th>
+            <th><?php echo __('Content') ?></th>
+            <th><?php echo __('Author') ?></th>
+            <th><?php echo __('Created At') ?></th>
+        </tr>
+        <tr>
+            <td><?php echo $blogDetail['title'] ?></td>
+            <td><?php echo $block->getImageUrl($blogDetail['image']) ?></td>
+            <td><?php echo $blogDetail['content'] ?></td>
+            <td><?php echo $blogDetail['author'] ?></td>
+            <td><?php echo $blogDetail['created_at'] ?></td>
+        </tr>
+    </table>
+    <br/>
+</div>
