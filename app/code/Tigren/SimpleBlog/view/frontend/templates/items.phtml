@@ -1,0 +1,42 @@
+<?php
+/*
+ *  @author  Tigren Solutions <info@tigren.com>
+ *   @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>. All rights reserved.
+ *  @license  Open Software License (“OSL”) v. 3.0
+ */
+
+/** @var Posts $block */
+
+use Tigren\SimpleBlog\Block\Posts;
+
+?>
+<?php $posts = $block->getPostItems(); ?>
+
+<div class="post-content">
+    <table style="width:100%">
+        <tr>
+            <th class="blogs-list"><?php echo __('id') ?></th>
+            <th class="blogs-list"><?php echo __('Title') ?></th>
+            <th class="blogs-list"><?php echo __('Short Description') ?></th>
+            <th class="blogs-list"><?php echo __('Author') ?></th>
+            <th class="blogs-list"><?php echo __('Created At') ?></th>
+            <th class="blogs-list"><?php echo __('Details') ?></th>
+        </tr>
+        <?php if (count($posts)) : ?>
+            <?php foreach ($posts as $post) : ?>
+                <tr>
+                    <td><?php echo $post->getId() ?></td>
+                    <td><?php echo $post->getTitle() ?></td>
+                    <td><?php echo $post->getShortDescription() ?></td>
+                    <td><?php echo $post->getAuthor() ?></td>
+                    <td><?php echo $post->getCreatedAt() ?></td>
+                    <td><a class="button-tigren-blog"
+                           href="http://magento.localhost.com/tigrentech/index/detail?id=<?php echo $post->getId() ?>">Post
+                            Detail</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </table>
+    <br/>
+</div>

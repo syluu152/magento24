@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~  @author  Tigren Solutions <info@tigren.com>
+  ~   @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>. All rights reserved.
+  ~  @license  Open Software License (“OSL”) v. 3.0
+  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="left">
+            <block class="Tigren\SimpleBlog\Block\Adminhtml\Posts\Edit\Tabs"
+                   name="tigrentech_posts_grid_block.edit.tabs"/>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Tigren\SimpleBlog\Block\Adminhtml\Posts\Edit"
+                   name="tigrentech_posts_grid_block.edit"/>
+        </referenceContainer>
+    </body>
+</page>
