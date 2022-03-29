@@ -22,10 +22,10 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
         $data = [];
         if ($this->getId()) {
             $data = [
-                'label' => __('Delete Contact'),
+                'label' => __('Delete Discount'),
                 'class' => 'delete',
                 'on_click' => 'deleteConfirm(\''
-                    . __('Are you sure you want to delete this contact ?')
+                    . __('Are you sure you want to delete this discount ?')
                     . '\', \'' . $this->getDeleteUrl() . '\')',
                 'sort_order' => 20,
             ];
