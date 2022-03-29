@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~ @author    Tigren Solutions <info@tigren.com>
-  ~ @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
-  ~ @license   Open Software License ("OSL") v. 3.0
-  -->
-
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
@@ -61,7 +55,7 @@
                 <resizeDefaultWidth>25</resizeDefaultWidth>
             </settings>
         </column>
-        <column name="user_id">
+        <column name="user_name">
             <settings>
                 <filter>text</filter>
                 <label translate="true">User</label>
@@ -80,9 +74,11 @@
                 <label translate="true">Content</label>
             </settings>
         </column>
-        <column name="status">
+        <column name="status" component="Magento_Ui/js/grid/columns/select">
             <settings>
-                <filter>text</filter>
+                <options class="Tigren\BlogManager\Model\Blog\Status" />
+                <dataType>select</dataType>
+                <filter>select</filter>
                 <sortable>false</sortable>
                 <label translate="true">Status</label>
             </settings>
