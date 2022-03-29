@@ -1,0 +1,53 @@
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+//
+//  Mixins
+//  _________________________
+
+.am-flex(@horiz-pos: none,
+         @vert-pos: none,
+         @wrap: none
+) {
+    & {
+        display: flex;
+    }
+
+    & when not (@horiz-pos = none) {
+        justify-content: @horiz-pos;
+    }
+
+    & when not (@vert-pos = none) {
+        align-items: @vert-pos;
+    }
+
+    & when not (@wrap = none) {
+        flex-wrap: @wrap;
+    }
+}
+
+.amprot-icon(
+    @icon-url: none,
+    @width: @amprot__indent__l,
+    @height: @amprot__indent__l
+) {
+    & {
+        .am-flex(center, center);
+
+        align-content: center;
+    }
+
+    &:before {
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-image: @icon-url;
+        width: @width;
+        height: @height;
+        display: block;
+        content: '';
+    }
+}

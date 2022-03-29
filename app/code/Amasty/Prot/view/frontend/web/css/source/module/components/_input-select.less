@@ -1,0 +1,270 @@
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+//
+//  Input Select component styles
+//  _____________________________________
+
+//
+//  Imports
+//  ----------------------------------------------
+
+@import '../_mixins';
+
+//
+//  Common
+//  -------------------------------------
+
+& when (@media-common = true) {
+    .amprot-select-block {
+        & {
+            .am-flex();
+
+            position: relative;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        &.-active {
+            z-index: 11;
+        }
+    }
+
+    .amprot-select-block.-active {
+        .amprot-select-options {
+            visibility: visible;
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .amprot-placeholder {
+            color: @amprot-text__color;
+        }
+
+        .amprot-placeholder:after {
+            top: 13px;
+            transform: rotate(225deg);
+        }
+    }
+
+    .amprot-select-block.-multiple {
+        .amprot-option {
+            & {
+                justify-content: flex-start;
+            }
+
+            &:before {
+                ._am-checkbox;
+
+                margin: 1px @amprot__indent 0 0;
+                border-radius: 1px;
+                content: '';
+            }
+
+            &:after {
+                ._am-checkbox-arrow;
+
+                position: absolute;
+                top: 13px;
+                left: 13px;
+            }
+        }
+
+        .amprot-option > .amprot-value {
+            margin: 0 0 0 auto;
+        }
+
+        .amprot-option.-selected {
+            &:before {
+                border-color: @amprot__base__color;
+                background-color: @amprot__base__color;
+            }
+
+            &:after {
+                display: block;
+            }
+        }
+
+        .amprot-option:hover,
+        .amprot-option.-selected {
+            background-color: transparent;
+            color: @amprot-text__color;
+        }
+
+        .amprot-option.-selected {
+            font-weight: bold;
+        }
+
+        .amprot-option:hover:before {
+            border-color: @amprot__base__color;
+        }
+
+        &.-active > .amprot-placeholder {
+            & {
+                ._am-cross-icon;
+            }
+
+            &:before,
+            &:after {
+                right: 9px;
+                left: inherit;
+                border: 0;
+            }
+        }
+    }
+
+    .amprot-select-options {
+        & {
+            position: absolute;
+            top: calc(~"100% - 2px");
+            right: 0;
+            left: 0;
+            z-index: 2;
+            display: block;
+            visibility: hidden;
+            overflow: auto;
+            margin: 0;
+            padding: 0;
+            max-height: 300px;
+            border-width: 0 1px 1px;
+            border-style: solid;
+            border-color: @amprot-line__color;
+            border-radius: 0 0 @amprot__border-radius @amprot__border-radius;
+            background: #fff;
+            list-style-type: none;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .amprot-option {
+            & {
+                .am-flex(space-between, center);
+
+                position: relative;
+                margin: 0;
+                padding: @amprot__indent;
+                color: @amprot-text__color;
+                font-size: 14px;
+                line-height: 1;
+                cursor: pointer;
+            }
+
+            &:hover {
+                background-color: @amprot__hover__color;
+                color: #fff;
+            }
+
+            &.-selected {
+                background-color: darken(@amprot__hover__color, 5%);
+                color: #fff;
+            }
+        }
+
+        .amprot-option .amprot-title,
+        .amprot-option .amprot-value {
+            pointer-events: none;
+        }
+
+        .amprot-option:not(:hover):not(.-selected) .amprot-value {
+            color: @amprot-line__color__dark;
+        }
+    }
+
+    .amprot-select-block > .amprot-placeholder {
+        & {
+            .am-flex(none, center);
+
+            position: relative;
+            z-index: 10;
+            padding: 0 @amprot__indent__l * 2 0 @amprot__indent;
+            height: @amprot__indent__l * 2;
+            border: 1px solid @amprot-line__color;
+            border-radius: @amprot__border-radius;
+            background: #fff;
+            color: @amprot-line__color__light;
+            font-size: 14px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        > .amprot-value:before {
+            padding: 0 @amprot__indent / 2;
+            color: @amprot-line__color;
+            content: '|';
+        }
+
+        &:after {
+            position: absolute;
+            top: 8px;
+            right: @amprot__indent;
+            display: block;
+            width: 8px;
+            height: 8px;
+            border-width: 0 1px 1px 0;
+            border-style: solid;
+            border-color: @amprot-line__color;
+            content: '';
+            transform: rotate(45deg);
+        }
+
+        &.-selected {
+            color: @amprot-text__color;
+        }
+    }
+
+    .amprot-input-block > .amprot-select {
+        ._am-visually-hidden;
+    }
+
+    .amprot-close-button {
+        & {
+            ._am-cross-icon;
+
+            display: block;
+            padding: 0;
+            width: @amprot__indent__xxl;
+            height: 100%;
+            border: 0;
+            border-radius: 0 50px 50px 0;
+            background: none;
+            box-shadow: none;
+            color: inherit;
+            line-height: 1;
+        }
+
+        &:not(.primary) {
+            box-shadow: none;
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+            border: 0;
+            background: none;
+            color: inherit;
+        }
+    }
+
+    .-select .amprot-input-block {
+        & {
+            .am-flex();
+
+            flex-direction: column;
+        }
+
+        // Magento styles override
+        .mage-error[generated] {
+            order: 3;
+        }
+        // END Magento styles override
+    }
+
+    // Magento styles override
+    .required.mage-error ~ .amprot-select-block .amprot-placeholder {
+        border-color: @amprot__error__color;
+    }
+    // END Magento styles override
+}

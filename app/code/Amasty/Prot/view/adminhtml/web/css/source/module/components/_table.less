@@ -1,0 +1,53 @@
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+//
+//  Table Styles
+// _______________________________________________
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .amprot-table-block {
+        .lib-table();
+        .lib-table-resize(
+            @_td-padding-top: @amprot__indent__l,
+            @_td-padding-right: @amprot__indent__xl,
+            @_td-padding-bottom: @amprot__indent__l,
+            @_td-padding-left: @amprot__indent__xl,
+            @_th-padding-top: @amprot__indent__l,
+            @_th-padding-right: @amprot__indent__xl,
+            @_th-padding-bottom: @amprot__indent__l,
+            @_th-padding-left: @amprot__indent__xl
+        );
+        .lib-table-typography(
+            @_table-th-color: #fff
+        );
+        .lib-table-background-color(
+            @_table-background-color: @color-white,
+            @_table-head-background-color: @amprot__table__background-color
+        );
+        .lib-table-bordered(
+            @_table_type: vertical
+        );
+        .lib-table-striped(
+            @_stripped-background-color: #f1f1f1,
+            @_stripped-color: @color-black,
+            @_stripped-direction: horizontal,
+            @_stripped-highlight: even
+        );
+
+        > thead {
+            border: 1px solid @amprot__table__background-color;
+        }
+
+        > tbody {
+            border: 1px solid #d6d6d6;
+        }
+    }
+}

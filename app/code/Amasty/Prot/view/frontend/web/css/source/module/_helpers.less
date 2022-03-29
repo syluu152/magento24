@@ -1,0 +1,107 @@
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+//
+//  Helpers
+//  _____________________________________
+
+._am-visually-hidden {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    margin: -1px;
+    padding: 0;
+    width: 1px;
+    height: 1px;
+    border: 0;
+}
+
+._am-visually-hidden-reset {
+    position: static;
+    overflow: visible;
+    clip: auto;
+    margin: 0;
+    width: auto;
+    height: auto;
+}
+
+._word-break {
+    word-break: break-all;
+    word-break: break-word;
+}
+
+._am-checkbox {
+    & {
+        .am-flex(center, center);
+        .transition(.1);
+
+        position: relative;
+        box-sizing: border-box;
+        margin: 2px 0 0;
+        min-width: 12px;
+        width: 12px;
+        height: 12px;
+        border: 1px solid @amprot-line__color;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    &:hover {
+        border-color: @amprot__hover__color;
+    }
+}
+
+._am-checkbox-arrow {
+    display: none;
+    margin: 0 0 2px 0;
+    width: 4px;
+    height: 6px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    content: '';
+    transform: rotate(45deg);
+}
+
+._am-cross-icon {
+    & {
+        position: relative;
+    }
+
+    &:before,
+    &:after {
+        position: absolute;
+        top: 50%;
+        left: 7px;
+        display: block;
+        width: 11px;
+        height: 1px;
+        background: @amprot-line__color;
+        content: '';
+    }
+
+    &:before {
+        transform: rotate(45deg);
+    }
+
+    &:after {
+        transform: rotate(-45deg);
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+        &:before,
+        &:after {
+            background: @amprot-line__color__dark;
+        }
+    }
+}
+
+._am-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

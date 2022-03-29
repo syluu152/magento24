@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ @author    Tigren Solutions <info@tigren.com>
+  ~ @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+  ~ @license   Open Software License ("OSL") v. 3.0
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Catalog\Block\Product\View\Options">
+        <plugin name="Amasty_Prot::validate_options_graph" type="Amasty\Prot\Plugin\Catalog\Block\Product\View\OptionsPlugin" />
+    </type>
+
+    <type name="Magento\Catalog\Model\ResourceModel\Product\Option\Value\Collection">
+        <plugin name="Amasty_Prot::join_value_info_graph" type="Amasty\Prot\Plugin\Catalog\Model\ResourceModel\Product\Option\Value\CollectionPlugin" />
+    </type>
+
+    <type name="Magento\Framework\GraphQl\Schema\Type\Entity\DefaultMapper">
+        <arguments>
+            <argument name="map" xsi:type="array">
+                <item name="amprot_customizable_options" xsi:type="array">
+                    <item name="field" xsi:type="string">AmProtCustomizableFieldOption</item>
+                    <item name="date" xsi:type="string">AmProtCustomizableDateOption</item>
+                    <item name="date_time" xsi:type="string">AmProtCustomizableDateOption</item>
+                    <item name="time" xsi:type="string">AmProtCustomizableDateOption</item>
+                    <item name="file" xsi:type="string">AmProtCustomizableFileOption</item>
+                    <item name="area" xsi:type="string">AmProtCustomizableAreaOption</item>
+                    <item name="drop_down" xsi:type="string">AmProtCustomizableDropDownOption</item>
+                    <item name="multiple" xsi:type="string">AmProtCustomizableMultipleOption</item>
+                    <item name="radio" xsi:type="string">AmProtCustomizableRadioOption</item>
+                    <item name="checkbox" xsi:type="string">AmProtCustomizableCheckboxOption</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>

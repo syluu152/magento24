@@ -1,0 +1,79 @@
+<?php
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+/* @var $block \Amasty\Prot\Block\Catalog\Block\Product\View\Type\Select\Multiple */
+
+use Magento\Catalog\Model\Product\Option;
+
+$option = $block->getOption();
+$requiredClass = $option->getIsRequire() ? 'required' : '';
+$isMultiple = $option->getType() === Option::OPTION_TYPE_MULTIPLE;
+$multipleClass = $isMultiple ? '-multiple' : '';
+$type = $isMultiple ? 'multiple' : 'default';
+$multiNamePart = $isMultiple ? '[]' : '';
+$swatchOptionType = $block->getSwatchClassName($option->getOptionListType());
+?>
+
+<select id="amprot-swatch_<?= (int)$option->getId() ?>"
+        class="amprot-swatch-input product-custom-option
+               <?= $block->escapeHtmlAttr($requiredClass . ' ' . $multipleClass) ?>"
+        name="options[<?= (int)$option->getId() ?>]<?= /* @noEscape */ $multiNamePart ?>"
+        data-selector="options[<?= (int)$option->getId() ?>]<?= /* @noEscape */ $multiNamePart ?>"
+        data-amprot-js="swatch-origin_<?= (int)$option->getId() ?>"
+        data-option-id="<?= (int) $option->getId() ?>"
+
+    <?php if (!$block->getSkipJsReloadPrice()): ?>
+        onchange="opConfig.reloadPrice()"
+    <?php endif; ?>
+
+    <?php if ($isMultiple): ?>
+        multiple="multiple"
+    <?php endif; ?>>
+
+    <?php if (!$isMultiple): ?>
+        <option value=""><?= $block->escapeHtml(__('-- Please Select --')) ?></option>
+    <?php endif; ?>
+
+    <?php foreach ($option->getValues() as $value): ?>
+        <option value="<?= (int)$value->getOptionTypeId() ?>">
+            <?= $block->escapeHtml($value->getTitle()) ?>
+            <?= $block->escapeHtml($block->getPriceContent($value)) ?>
+        </option>
+    <?php endforeach;?>
+</select>
+
+<ul class="amprot-swatches-block
+    <?= $block->escapeHtmlAttr($multipleClass) ?>
+    <?= $block->escapeHtmlAttr($swatchOptionType) ?>"
+     data-mage-init='{
+         "amprotSwatches": {
+             "id": "<?= (int)$option->getId() ?>",
+             "type": "<?= $block->escapeHtml($type) ?>"
+         }
+     }'
+     data-amprot-js="swatch">
+        <?php foreach ($option->getValues() as $value): ?>
+            <li class="amprot-swatch-option"
+                data-amprot-js="option"
+                data-amprot-value="<?= (int)$value->getOptionTypeId() ?>">
+                <div class="amprot-image-block">
+                    <?php if ($block->hasBackground($value)): ?>
+                        <div class="amprot-image"
+                             style="<?= $block->escapeHtmlAttr($block->getBackground($value)) ?>;">
+                        </div>
+                    <?php else: ?>
+                        <img class="amprot-image-placeholder"
+                             src="<?= $block->escapeUrl($block->getPlaceholder()) ?>"
+                             alt="<?= $block->escapeHtml(__('Placeholder')) ?>">
+                        <div class="amprot-text"><?= $block->escapeHtml($block->getText($value)) ?></div>
+                    <?php endif; ?>
+                </div>
+                <span class="amprot-name"><?= $block->escapeHtml($value->getTitle()) ?></span>
+                <span class="amprot-price"><?= $block->escapeHtml($block->getPriceContent($value)) ?></span>
+            </li>
+        <?php endforeach;?>
+</ul>

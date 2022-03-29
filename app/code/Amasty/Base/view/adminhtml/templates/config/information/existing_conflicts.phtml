@@ -1,0 +1,22 @@
+<?php
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+?>
+<?php
+/** @var \Amasty\Base\Block\Adminhtml\System\Config\InformationBlocks\ExistingConflicts $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<?php $messages = $block->getConflictsMessages(); ?>
+<?php if (!empty($messages)): ?>
+    <div class="amasty-conflicts-title">
+        <?= $escaper->escapeHtml(__('Problems detected:')) ?>
+    </div>
+    <div class="amasty-disable-extensions">
+        <?php foreach ($messages as $message): ?>
+            <p class="message message-error"><?= $escaper->escapeHtml($message) ?></p>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,61 @@
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+//
+//  Tags component styles
+//  ______________________________________________
+
+//
+//  Imports
+//  ----------------------------------------------
+
+@import '../_mixins';
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .amprot-tags-block {
+        & {
+            .am-flex(none, none, wrap);
+
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        > .amprot-option {
+            .am-flex(none, center);
+            .transition(.1);
+
+            overflow: hidden;
+            margin: @amprot__indent @amprot__indent 0 0;
+            padding: 0;
+            border: 1px solid @amprot__base__color;
+            border-radius: 50px;
+            color: @amprot-text__color;
+        }
+
+        > .amprot-option > .amprot-title {
+            padding: @amprot__indent;
+        }
+
+        > .amprot-option > .amprot-value {
+            padding: @amprot__indent 0;
+            color: @amprot-line__color__dark;
+            font-weight: bold;
+        }
+
+        > .amprot-option:hover {
+            border-color: @amprot__hover__color;
+        }
+
+        > .amprot-option:hover > .amprot-title {
+            color: #000;
+        }
+    }
+}

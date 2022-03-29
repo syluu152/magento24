@@ -9,11 +9,15 @@ namespace Tigren\SimpleBlog\Controller\Adminhtml\Posts;
 
 use Exception;
 use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Registry;
+use Magento\Framework\View\Result\PageFactory;
 use Magento\MediaStorage\Model\File\UploaderFactory;
 use Tigren\SimpleBlog\Controller\Adminhtml\Posts;
+use Tigren\SimpleBlog\Model\PostsFactory;
 
 /**
  *
@@ -30,14 +34,12 @@ class Uploader extends Posts
      * @param Action\Context $context
      */
     public function __construct(
-        UploaderFactory $fileUploaderFactory,
-        Action\Context                                   $context
-
-    )
-    {
-
-        $this->_fileUploaderFactory = $fileUploaderFactory;
-        parent::__construct($context);
+        Context $context,
+        Registry $coreRegistry,
+        PageFactory $resultPageFactory,
+        PostsFactory $postsFactory
+    ) {
+        parent::__construct($context, $coreRegistry, $resultPageFactory, $postsFactory);
     }
 
     /**

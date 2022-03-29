@@ -1,0 +1,46 @@
+<?php
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+use Product\Discount\Block\Adminhtml\Discount\ProductOfDiscount;
+
+/** @var ProductOfDiscount $block */
+$listProduct = $block->getAllDataProducts();
+?>
+<div class="table-wrapper orders-history">
+    <table border="1px" class="data table table-order-items history" id="my-orders-table">
+        <caption class="table-caption"><?php echo __('List Product') ?></caption>
+        <thead>
+        <tr>
+            <th scope="col" class="col id"><?php echo __('Id') ?></th>
+            <th scope="col" class="col name"><?php echo __('Name') ?></th>
+            <th scope="col" class="col thumbnail"><?php echo __('Thumbnail') ?></th>
+            <th scope="col" class="col sku"><?php echo __('SKU') ?></th>
+            <th scope="col" class="col price"><?php echo __('Price') ?></th>
+            <th scope="col" class="col status"><?php echo __('Status') ?></th>
+            <th scope="col" class="col date"><?php echo __('Update At') ?></th>
+            <th scope="col" class="col action"><?php echo __('Action') ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php // read collection as magento1.x and display in list
+        foreach ($listProduct as $product): ?>
+            <tr>
+                <td class="col id"><?php echo $product->getId() ?></td>
+                <td class="col name"><?php echo $product->getName() ?></td>
+                <td class="col thumbnail"><?php echo "<img with='60px' height='80px' src = '/magento241/pub/media/catalog/product/" . $product->getMediaAttributeValues()['thumbnail'] . "'/>"; ?></td>
+                <td class="col sku"><?php echo $product->getSku() ?></td>
+                <td class="col price"><?php echo $product->getPrice() ?></td>
+                <td class="col status"><?php echo $product->getStatus() ?></td>
+                <td class="col date"><?php echo $product->getUpdatedAt() ?></td>
+                <td class="col action"><a
+                        href="<?= $block->getUrl('discount_admin/discount/removeProduct/id/' . $product['id'] . '/id_discount/' . $block->getData('id_discount')) ?>">Remove</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

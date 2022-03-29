@@ -1,0 +1,12 @@
+<!--
+  ~ @author    Tigren Solutions <info@tigren.com>
+  ~ @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+  ~ @license   Open Software License ("OSL") v. 3.0
+  -->
+
+<!-- ko if: $row().status == 1 -->
+<span class="grid-severity-critical"><span translate="'Processing'"></span> (<span html="$row().qty_pending"></span><span translate="' in Queue'"></span>)</span>
+<!-- /ko -->
+<!-- ko if: $row().status == 0 -->
+<span class="grid-severity-notice"><span translate="'Ready'"></span></span>
+<!-- /ko -->

@@ -1,0 +1,162 @@
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+//
+//  Table Styles
+// _______________________________________________
+
+//
+//  Imports
+//  ----------------------------------------------
+
+@import '../_mixins';
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    // Remove delete template button from template grid
+    .amprot-templates-edit .amprot-template-block > .admin__field-control > .admin__dynamic-rows > tbody > .data-row > .admin__collapsible-block-wrapper > .fieldset-wrapper > .fieldset-wrapper-title .action-delete {
+        display: none;
+    }
+
+    .amprot-option-wrapper {
+        & {
+            position: relative;
+        }
+
+        .amprot-button.-copy {
+            position: absolute;
+            top: 1.3rem;
+            right: 4rem;
+            width: @amprot__indent__xxl;
+            height: @amprot__indent__xxl;
+        }
+
+        .amprot-disabled {
+            > .admin__collapsible-content {
+                pointer-events: none;
+            }
+
+            .action-delete {
+                display: none;
+            }
+        }
+
+        // Override Magento styles
+        .action-menu,
+        .abs-action-menu .action-submenu,
+        .action-menu .action-submenu,
+        .actions-split .dropdown-menu .action-submenu,
+        .actions-split .action-menu .action-submenu {
+            width: 100%;
+        }
+
+        .action-menu {
+            z-index: 2;
+        }
+
+        .admin__control-table-wrapper {
+            position: relative;
+            overflow: inherit;
+        }
+
+        .admin__field-tooltip-content {
+            & {
+                left: -@amprot__indent__xl;
+            }
+
+            &:after,
+            &:before {
+                left: @amprot__indent__l;
+            }
+        }
+
+        .admin__action-multiselect-menu-inner._disabled {
+            opacity: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .swatches-visual-col.amprot-swatches-visual {
+            & {
+                padding-top: 1.7rem;
+            }
+
+            .swatch_window {
+                & {
+                    height: 23px !important;
+                }
+
+                &:before {
+                    height: calc(~"100% + 2px");
+                }
+
+                &:after {
+                    height: 31px;
+                    content: '\203A';
+                    font-size: 24px;
+                    line-height: 1.1;
+                }
+            }
+
+            .swatch_sub-menu_container {
+                & {
+                    top: -51%;
+                    margin-left: 55px;
+                    border-radius: 5px;
+                }
+
+                &:after {
+                    top: calc(~"50% - 6px");
+                    right: 100%;
+                    width: 0;
+                    height: 0;
+                    border: 6px solid;
+                    border-color: transparent #adadad transparent transparent;
+                    background: transparent;
+                }
+            }
+
+            .swatch_sub-menu_container .swatch_row:first-child {
+                border-radius: @amprot__indent / 2 @amprot__indent / 2 0 0;
+            }
+        }
+
+        .admin__control-checkbox + label {
+            .am-flex(none, center);
+        }
+
+        // END Override Magento styles
+
+        .amprot-row-block {
+            & {
+                .am-flex();
+            }
+
+            > .admin__field {
+                margin: 0;
+                min-width: 210px;
+                width: auto;
+            }
+
+            > .admin__field:first-child > .admin__field-label {
+                width: 100%;
+            }
+        }
+
+        .amprot-swatches-visual.unavailable {
+            &:after {
+                display: none;
+            }
+
+            .swatch_window {
+                background: linear-gradient(to top right, #eaeaea calc(~"50% - 1px"), #ff5151, #eaeaea calc(~"50% + 1px"));
+            }
+        }
+    }
+}

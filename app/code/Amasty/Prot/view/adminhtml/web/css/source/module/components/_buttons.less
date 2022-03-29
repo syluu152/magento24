@@ -1,0 +1,46 @@
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+//
+//  Buttons Styles
+// _______________________________________________
+
+//
+//  Imports
+//  ----------------------------------------------
+
+@import '../_mixins';
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .amprot-button {
+        &.-clear {
+            & {
+                padding: 0;
+                border: none;
+                background: transparent;
+                box-shadow: none;
+            }
+
+            &:active,
+            &:hover,
+            &:focus {
+                border: none;
+                background: transparent;
+                box-shadow: none;
+            }
+        }
+
+        &.-copy {
+            .amprot-icon(@amprot-icon-copy__background, 18px, 18px);
+
+            filter: invert(27%) sepia(21%) saturate(229%) hue-rotate(346deg) brightness(97%) contrast(91%);
+        }
+    }
+}

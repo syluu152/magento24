@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+  ~ @author    Tigren Solutions <info@tigren.com>
+  ~ @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+  ~ @license   Open Software License ("OSL") v. 3.0
+  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <block class="Amasty\Base\Block\Adminhtml\System\Config\InformationBlocks\Basic" name="aminfotab.basic">
+            <action method="setClass">
+                <argument name="class" xsi:type="string">amasty-info-block</argument>
+            </action>
+            <block class="Amasty\Base\Block\Adminhtml\System\Config\InformationBlocks\VersionInfo" name="aminfotab.version"/>
+            <block class="Amasty\Base\Block\Adminhtml\System\Config\InformationBlocks\ExistingConflicts" name="aminfotab.conflicts"/>
+            <block class="Amasty\Base\Block\Adminhtml\System\Config\InformationBlocks\Basic" name="aminfotab.buttons.wrapper">
+                <action method="setClass">
+                    <argument name="class" xsi:type="string">ambase-buttons-container</argument>
+                </action>
+                <block class="Amasty\Base\Block\Adminhtml\System\Config\InformationBlocks\FeatureRequest" name="aminfotab.feature"/>
+                <block class="Amasty\Base\Block\Adminhtml\System\Config\InformationBlocks\UserGuide" name="aminfotab.guide"/>
+            </block>
+        </block>
+    </body>
+</page>

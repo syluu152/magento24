@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ @author    Tigren Solutions <info@tigren.com>
+  ~ @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+  ~ @license   Open Software License ("OSL") v. 3.0
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Amasty_Prot::config" title="Amasty Product Option Templates" sortOrder="161520"/>
+                        </resource>
+                    </resource>
+                </resource>
+
+                <resource id="Magento_Catalog::catalog">
+                    <resource id="Amasty_Prot::prot" title="Amasty Product Option Templates" translate="title" sortOrder="160">
+                        <resource id="Amasty_Prot::templates" title="Template List" translate="title" sortOrder="10"/>
+                        <resource id="Amasty_Prot::mass_assign" title="Mass Assign" translate="title" sortOrder="20"/>
+                        <resource id="Amasty_Prot::mass_remove" title="Mass Remove" translate="title" sortOrder="30"/>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

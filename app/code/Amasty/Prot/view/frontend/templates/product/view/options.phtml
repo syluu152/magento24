@@ -1,0 +1,64 @@
+<?php
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+/* @var $block \Amasty\Prot\Block\Catalog\Block\Product\View\Options */
+?>
+
+<?php $options = $block->decorateArray($block->getOptions()) ?>
+<?php $productId = $block->getProduct()->getId() ?>
+<?php if (count($options)): ?>
+    <script type="text/x-magento-init">
+        {
+            "#product_addtocart_form": {
+                "priceOptions": {
+                    "optionConfig": <?= /* @noEscape */ $block->getJsonConfig() ?>,
+                    "controlContainer": ".amprot-field",
+                    "priceHolderSelector": "[data-product-id='<?= $block->escapeHtml($productId) ?>'][data-role='priceBox']"
+                }
+            }
+        }
+    </script>
+    <?php foreach ($options as $option): ?>
+        <?php $className = 'amprot-field-container-' . $option->getId() ?>
+        <div class="<?= $block->escapeHtmlAttr($className) ?>">
+            <?= $block->getOptionHtml($option) ?>
+            <?php if ($block->hasOptionStyles($option)): ?>
+                <style>
+                    <?php if ($option->getFontColor()): ?>
+                        .<?= $block->escapeHtml($className) ?> .amprot-name,
+                        .<?= $block->escapeHtml($className) ?> .amprot-label,
+                        .<?= $block->escapeHtml($className) ?> .label,
+                        .<?= $block->escapeHtml($className) ?> .date .legend,
+                        .<?= $block->escapeHtml($className) ?> .amprot-price {
+                            color: <?= $block->escapeHtml($option->getFontColor()) ?>;
+                        }
+                    <?php endif; ?>
+
+                    <?php if ($option->getFontSize()): ?>
+                        .<?= $block->escapeHtml($className) ?> .amprot-name,
+                        .<?= $block->escapeHtml($className) ?> .amprot-label,
+                        .<?= $block->escapeHtml($className) ?> .label,
+                        .<?= $block->escapeHtml($className) ?> .date .legend,
+                        .<?= $block->escapeHtml($className) ?> .amprot-price {
+                            font-size: <?= $block->escapeHtml($option->getFontSize()) ?>px;
+                        }
+                    <?php endif; ?>
+                </style>
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
+
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "amprotDependency": {
+                    "dependencyMap": <?= /* @noEscape */ $block->getSerializedDependencyConfig() ?>
+                }
+            }
+        }
+    </script>
+<?php endif; ?>

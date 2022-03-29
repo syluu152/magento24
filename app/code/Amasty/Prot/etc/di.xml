@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ @author    Tigren Solutions <info@tigren.com>
+  ~ @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+  ~ @license   Open Software License ("OSL") v. 3.0
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Amasty\Prot\Api\Data\TemplateInterface"
+                type="Amasty\Prot\Model\Template" />
+    <preference for="Amasty\Prot\Api\Data\TemplateOptionInterface"
+                type="Amasty\Prot\Model\TemplateOption" />
+    <preference for="Amasty\Prot\Api\TemplateRepositoryInterface"
+                type="Amasty\Prot\Model\Repository\Template" />
+    <preference for="Amasty\Prot\Api\TemplateOptionRepositoryInterface"
+                type="Amasty\Prot\Model\Repository\TemplateOption" />
+    <preference for="Amasty\Prot\Api\Data\TemplateOptionValueInterface"
+                type="Amasty\Prot\Model\TemplateOptionValue" />
+    <preference for="Amasty\Prot\Api\TemplateOptionValueRepositoryInterface"
+                type="Amasty\Prot\Model\Repository\TemplateOptionValueRepository" />
+
+    <type name="Amasty\Prot\Console\Command\TemplateApplierCommand">
+        <arguments>
+            <argument name="scheduleResolver" xsi:type="object">Amasty\Prot\Model\ScheduleResolver\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="amprotApplyTemplates" xsi:type="object">Amasty\Prot\Console\Command\TemplateApplierCommand</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="amprot_templates_listing_data_source" xsi:type="string">Amasty\Prot\Model\ResourceModel\Template\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Prot\Model\ResourceModel\Template\Grid\Collection">
+        <arguments>
+            <argument name="eventPrefix" xsi:type="string">amprot_templates_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">amprot_templates_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Amasty\Prot\Model\ResourceModel\Template</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Model\Product\Type\AbstractType">
+        <plugin name="Amasty_Prot::has_options" type="Amasty\Prot\Plugin\Catalog\Model\Product\Type\AbstractTypePlugin" />
+    </type>
+
+    <type name="Magento\Framework\EntityManager\Operation\ExtensionPool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="Magento\Catalog\Api\Data\ProductInterface" xsi:type="array">
+                    <item name="create" xsi:type="array">
+                        <item name="amasty_templates_create" xsi:type="string">Amasty\Prot\Model\Catalog\Product\SaveHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="amasty_templates_update" xsi:type="string">Amasty\Prot\Model\Catalog\Product\SaveHandler</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Prot\Model\ResourceModel\Catalog\Product\Option\Value\CollectionFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">Amasty\Prot\Model\ResourceModel\Catalog\Product\Option\Value\Collection</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Prot\Model\ResourceModel\Catalog\Product\Option\Collection">
+        <arguments>
+            <argument name="optionValueCollectionFactory" xsi:type="object">Amasty\Prot\Model\ResourceModel\Catalog\Product\Option\Value\CollectionFactory</argument>
+        </arguments>
+    </type>
+</config>

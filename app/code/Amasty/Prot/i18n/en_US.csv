@@ -1,0 +1,163 @@
+"Assign/Remove Custom Option Templates","Assign/Remove Custom Option Templates"
+"Enable product-option-templates-graphql module to activate GraphQl and Product Option Templates integration. If main plugin was installed manually, please download the GraphQl package under your account and proceed with standard manual installation. If main plugin was installed via composer, then to install the GraphQl package run the following command in the SSH: composer require amasty/product-option-templates-graphql","Enable product-option-templates-graphql module to activate GraphQl and Product Option Templates integration. If main plugin was installed manually, please download the GraphQl package under your account and proceed with standard manual installation. If main plugin was installed via composer, then to install the GraphQl package run the following command in the SSH: composer require amasty/product-option-templates-graphql"
+"Please update Amasty Base module. Re-upload it and replace all the files.","Please update Amasty Base module. Re-upload it and replace all the files."
+"There are two ways to create a new options template:
+                1. At any product configuration page, please open Customizable Option Templates by Amasty
+                expand -> Click 'Add New Template'and define the options -> Save the product.
+                2. Go to Template List page and click 'Add New Template' -> Define the options
+                and assign at least one product -> Save the template.
+
+                To add an existing template to multiple products:
+                - Either at Product Grid, select only products you would like to add this new template to and
+                with a new Mass Edit option, 'Add Custom Option Template', choose and apply that new template
+                to each product you selected.
+                - Or at Template List page choose the required template and open it in edit mode
+                -> Click 'Add Products' and select the needed, confirm the action and save the template.
+
+                To delete the existing template:
+                - either remove it from all products,
+                - or delete it at Catalog > Product Option Templates > Template List.","There are two ways to create a new options template:
+                1. At any product configuration page, please open Customizable Option Templates by Amasty
+                expand -> Click 'Add New Template'and define the options -> Save the product.
+                2. Go to Template List page and click 'Add New Template' -> Define the options
+                and assign at least one product -> Save the template.
+
+                To add an existing template to multiple products:
+                - Either at Product Grid, select only products you would like to add this new template to and
+                with a new Mass Edit option, 'Add Custom Option Template', choose and apply that new template
+                to each product you selected.
+                - Or at Template List page choose the required template and open it in edit mode
+                -> Click 'Add Products' and select the needed, confirm the action and save the template.
+
+                To delete the existing template:
+                - either remove it from all products,
+                - or delete it at Catalog > Product Option Templates > Template List."
+"Template List","Template List"
+"Product Options Templates have been applied.","Product Options Templates have been applied."
+"We can't change item right now. Please review the log and try again.","We can't change item right now. Please review the log and try again."
+"A total of %1 record(s) have been changed.","A total of %1 record(s) have been changed."
+"No records have been changed.","No records have been changed."
+"We can't assign template right now. Please review the log and try again.","We can't assign template right now. Please review the log and try again."
+"We can't remove template from products right now. Please review the log and try again.","We can't remove template from products right now. Please review the log and try again."
+"A total of %1 record(s) have been updated.","A total of %1 record(s) have been updated."
+"No records have been updated.","No records have been updated."
+"You have applied the template.","You have applied the template."
+"We can't apply template right now. Please review the log and try again.","We can't apply template right now. Please review the log and try again."
+"You have deleted the template.","You have deleted the template."
+"We can't delete item right now. Please review the log and try again.","We can't delete item right now. Please review the log and try again."
+"This template no longer exists.","This template no longer exists."
+"Manage Template","Manage Template"
+"Edit Template # %1","Edit Template # %1"
+"New Template","New Template"
+"EditTemplate # %1","EditTemplate # %1"
+Templates,Templates
+"No cron job ""amprot_schedule"" found. Please check your cron configuration.","No cron job ""amprot_schedule"" found. Please check your cron configuration."
+"Cron job ""amprot_schedule"" is still running. Please delete it and check your error log.","Cron job ""amprot_schedule"" is still running. Please delete it and check your error log."
+"Please assign at least one customizable option to the template.","Please assign at least one customizable option to the template."
+"Product template was saved.","Product template was saved."
+"Please assign at least one product to the template.","Please assign at least one product to the template."
+"Something went wrong.","Something went wrong."
+"A total of %1 record(s) have been removed from template.","A total of %1 record(s) have been removed from template."
+"Something went wrong during saving the template.","Something went wrong during saving the template."
+"The template was not applied to product id(s) %1: Bundle/Dynamic Price, Grouped products and custom product types can't have Custom Options.","The template was not applied to product id(s) %1: Bundle/Dynamic Price, Grouped products and custom product types can't have Custom Options."
+"Unable to save template with ID %1. Error: %2","Unable to save template with ID %1. Error: %2"
+"Unable to save new template. Error: %1","Unable to save new template. Error: %1"
+"Something wend wrong. There are no template options.","Something wend wrong. There are no template options."
+"Unable to remove template with ID %1. Error: %2","Unable to remove template with ID %1. Error: %2"
+"The template was also deleted, because a template can't exist without being assigned to at least one product.","The template was also deleted, because a template can't exist without being assigned to at least one product."
+"Unable to remove template. Error: %1","Unable to remove template. Error: %1"
+"Template with specified ID ""%1"" not found.","Template with specified ID ""%1"" not found."
+"A total of %1 record(s) have been added to the template.","A total of %1 record(s) have been added to the template."
+"A total of %1 record(s) have been added to the queue. Wait a couple of minutes or run apply process with command line or Product Options Template List action.","A total of %1 record(s) have been added to the queue. Wait a couple of minutes or run apply process with command line or Product Options Template List action."
+"Unable to save template Option with ID %1. Error: %2","Unable to save template Option with ID %1. Error: %2"
+"Unable to save new template Option. Error: %1","Unable to save new template Option. Error: %1"
+"Option with specified ID ""%1"" not found.","Option with specified ID ""%1"" not found."
+"Unable to remove templateOption with ID %1. Error: %2","Unable to remove templateOption with ID %1. Error: %2"
+"Unable to remove templateOption. Error: %1","Unable to remove templateOption. Error: %1"
+"Unable to save templateOptionValue with ID %1. Error: %2","Unable to save templateOptionValue with ID %1. Error: %2"
+"Unable to save new templateOptionValue. Error: %1","Unable to save new templateOptionValue. Error: %1"
+"TemplateOptionValue with specified ID ""%1"" not found.","TemplateOptionValue with specified ID ""%1"" not found."
+"Unable to remove templateOptionValue with ID %1. Error: %2","Unable to remove templateOptionValue with ID %1. Error: %2"
+"Unable to remove templateOptionValue. Error: %1","Unable to remove templateOptionValue. Error: %1"
+Processing,Processing
+Ready,Ready
+"A total of %1 template(s) were removed for %2 record(s).","A total of %1 template(s) were removed for %2 record(s)."
+"A total of %1 template(s) were applied for %2 record(s).","A total of %1 template(s) were applied for %2 record(s)."
+"Assign Custom Option Template","Assign Custom Option Template"
+"Are you sure you want to assign template to selected items?","Are you sure you want to assign template to selected items?"
+Assign,Assign
+"Remove Custom Option Template","Remove Custom Option Template"
+"Are you sure you want to remove template from selected items?","Are you sure you want to remove template from selected items?"
+Remove,Remove
+Edit,Edit
+Delete,Delete
+"Delete %1","Delete %1"
+"<p> This action will remove %1 template entirely.</p><p> This action can't be reverted.</p><p> %2 product(s) will be affected.</p><p> Would you like to proceed with template deletion?</p>","<p> This action will remove %1 template entirely.</p><p> This action can't be reverted.</p><p> %2 product(s) will be affected.</p><p> Would you like to proceed with template deletion?</p>"
+Apply,Apply
+"Apply ${ $.$data.name }","Apply ${ $.$data.name }"
+"<p>${ $.$data.name } Template will be applied without cron Schedule. It may affect performance. </p><p>Would you like to proceed with template applying?</p>","<p>${ $.$data.name } Template will be applied without cron Schedule. It may affect performance. </p><p>Would you like to proceed with template applying?</p>"
+"One template can have multiple Customizable Options incorporated into it.<br/> Each change made inside this template will be applied to each product into which that template was added.<br/> (instantly upon saving changes in product if there are less than %1 products to update, upon nearest Cron run otherwise).","One template can have multiple Customizable Options incorporated into it.<br/> Each change made inside this template will be applied to each product into which that template was added.<br/> (instantly upon saving changes in product if there are less than %1 products to update, upon nearest Cron run otherwise)."
+"Add Option","Add Option"
+"Customizable Option Templates by Amasty","Customizable Option Templates by Amasty"
+"Please keep in mind that custom option templates containing Percent price option values can be assigned to Configurable products, however, due to Magento's internal limitations, such Percent price option values will become Free upon saving.","Please keep in mind that custom option templates containing Percent price option values can be assigned to Configurable products, however, due to Magento's internal limitations, such Percent price option values will become Free upon saving."
+"After saving this product with Amasty Product Option Template(s), please assign it to additional products through Product Grid's mass actions menu as necessary.<br/> 'Add Existing Template' allows to add a particular existing template into particular product's configuration. <br/>Once saved, the template can be unassigned from product by using trash can icon.<br/> The template can also be deleted from templates grid at <a href=""%1"">Templates list</a>","After saving this product with Amasty Product Option Template(s), please assign it to additional products through Product Grid's mass actions menu as necessary.<br/> 'Add Existing Template' allows to add a particular existing template into particular product's configuration. <br/>Once saved, the template can be unassigned from product by using trash can icon.<br/> The template can also be deleted from templates grid at <a href=""%1"">Templates list</a>"
+"Select Template","Select Template"
+Add,Add
+"Add Template","Add Template"
+"Current Template has been scheduled for update
+                                                    and will be available for editing after the update is finished.","Current Template has been scheduled for update
+                                                    and will be available for editing after the update is finished."
+"Template Name","Template Name"
+"Font Size","Font Size"
+px.,px.
+"Font Color","Font Color"
+"Use Swatches","Use Swatches"
+"Option List Type","Option List Type"
+Vertical,Vertical
+Horizontal,Horizontal
+Thumbnail,Thumbnail
+Swatch,Swatch
+"Add Dependency","Add Dependency"
+"To make the current option dependent on any other (parent) option’s value(s) please uncheck the ‘Required’ checkbox.</br>Note! There is AND logic between separate dependency lines and OR logic between several option's values within one line.","To make the current option dependent on any other (parent) option’s value(s) please uncheck the ‘Required’ checkbox.</br>Note! There is AND logic between separate dependency lines and OR logic between several option's values within one line."
+"Custom Option Title","Custom Option Title"
+"-- Please select --","-- Please select --"
+"Custom Option Value","Custom Option Value"
+"Add New Template","Add New Template"
+"Add Existing Template","Add Existing Template"
+Template,Template
+"We can't find templates.","We can't find templates."
+Change,Change
+"Compatible file extensions to upload","Compatible file extensions to upload"
+"Maximum image width","Maximum image width"
+"Maximum image height","Maximum image height"
+"Maximum %1 characters","Maximum %1 characters"
+None,None
+"-- Please Select --","-- Please Select --"
+Placeholder,Placeholder
+"Depends on:","Depends on:"
+"Copy of ","Copy of "
+"There are no options available","There are no options available"
+Error,Error
+"Save current product?","Save current product?"
+"Amasty Product Option Templates","Amasty Product Option Templates"
+"Mass Assign","Mass Assign"
+"Mass Remove","Mass Remove"
+"Product Option Templates","Product Option Templates"
+Information,Information
+"Quick Start Guide","Quick Start Guide"
+ID,ID
+Name,Name
+Status,Status
+Type,Type
+SKU,SKU
+Price,Price
+Back,Back
+Save,Save
+"Save and Continue Edit","Save and Continue Edit"
+Products,Products
+"To avoid loading issues in case of simultaneous assignment of large amount of products to the template we strongly recommend to assign templates via mass action from products list grid.","To avoid loading issues in case of simultaneous assignment of large amount of products to the template we strongly recommend to assign templates via mass action from products list grid."
+"Add Products","Add Products"
+Cancel,Cancel
+"Add Selected Products","Add Selected Products"
+Actions,Actions
+"Quantity of Products with the Template","Quantity of Products with the Template"

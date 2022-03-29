@@ -1,0 +1,57 @@
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+//
+//  Dependency styles
+// _______________________________________________
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .amprot-dependency-wrapper {
+        .amprot-label {
+            display: inline-block;
+            margin: 0 0 @amprot__indent;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .amprot-custom-field {
+            & {
+                position: relative;
+            }
+
+            &:not(.admin__field) {
+                width: 49%;
+            }
+
+            &._disabled {
+                pointer-events: none;
+                user-select: none;
+            }
+        }
+
+        // Override Magento styles
+        .admin__action-multiselect-crumb:not(:first-of-type) {
+            & {
+                position: relative;
+                margin-left: @amprot__indent__l * 2;
+            }
+
+            &:before {
+                position: absolute;
+                top: 0;
+                right: 100%;
+                display: block;
+                padding: 3px @amprot__indent;
+                content: 'or';
+            }
+        }
+        // END Override Magento styles
+    }
+}

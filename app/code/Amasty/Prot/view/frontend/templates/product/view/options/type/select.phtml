@@ -1,0 +1,32 @@
+<?php
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+use Magento\Catalog\Model\Product\Option;
+
+/* @var $block \Amasty\Prot\Block\Catalog\Block\Product\View\Type\Select*/
+
+$cssClass = '';
+$option = $block->getOption();
+$optionType = $option->getType();
+$isMultiple = $optionType === Option::OPTION_TYPE_MULTIPLE;
+$isDropDown = $optionType === Option::OPTION_TYPE_DROP_DOWN;
+$isCheckbox = $optionType === Option::OPTION_TYPE_CHECKBOX;
+$isRadio = $optionType === Option::OPTION_TYPE_RADIO;
+$cssClass .= $option->getIsRequire() ? 'required' : '';
+$cssClass .= $isCheckbox || $isRadio ? ' -checkable' : '';
+$cssClass .= $isDropDown || $isMultiple ? ' -select' : '';
+$cssClass .= $block->getParentBlock()->getDependencyClass($option);
+?>
+
+<div class="amprot-field <?= $block->escapeHtmlAttr($cssClass) ?>" data-amprot-js="field">
+    <label class="amprot-label" for="amprot-select_<?= $block->escapeHtmlAttr($option->getId()) ?>">
+        <?= $block->escapeHtml($option->getTitle()) ?>
+    </label>
+    <div class="amprot-input-block">
+        <?= /* @noEscape */ $block->getChildValuesHtml() ?>
+    </div>
+</div>

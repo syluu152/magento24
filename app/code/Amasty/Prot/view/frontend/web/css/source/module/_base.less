@@ -1,0 +1,84 @@
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+//
+//  Base Styles
+//  ______________________________________________
+
+//
+//  Imports
+//  ----------------------------------------------
+
+@import '_mixins';
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .amprot-field {
+        margin: 0 0 @amprot__indent__l * 2 0;
+        line-height: 1;
+    }
+
+    .amprot-field.-checkable {
+        & {
+            margin: 0 0 @amprot__indent__xxl + @amprot__indent;
+        }
+
+        .amprot-label {
+            margin: 0 0 @amprot__indent__xl 0;
+        }
+    }
+
+    .amprot-label {
+        ._word-break;
+
+        display: inline-block;
+        margin: 0 0 @amprot__indent 0;
+        color: @amprot-title__color;
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    .required .amprot-label:after {
+        margin: 0 0 0 @amprot__indent / 2;
+        color: @amprot__error__color;
+        content: '*';
+        font-size: 1.2rem;
+    }
+
+    .amprot-note-block {
+        & {
+            margin: @amprot__indent / 2 0 0;
+            font-size: 12px;
+            line-height: 1;
+        }
+
+        > .amprot-character-counter {
+            color: @amprot__error__color;
+        }
+    }
+
+    // Magento styles override
+    .amprot-text .price-notice {
+        .am-flex();
+
+        padding: 0 0 0 @amprot__indent / 2;
+        color: @amprot-line__color__dark;
+        word-break: normal;
+    }
+
+    .amprot-field .amprot-input-block .mage-error {
+        color: @amprot__error__color;
+        font-size: 12px;
+    }
+    // END Magento styles override
+
+    .amprot-dependent-field {
+        display: none;
+    }
+}

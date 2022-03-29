@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ @author    Tigren Solutions <info@tigren.com>
+  ~ @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+  ~ @license   Open Software License ("OSL") v. 3.0
+  -->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.options.wrapper">
+            <block class="Amasty\Prot\Block\Catalog\Block\Product\View\Options" name="am.prot.product.info.options"
+                   template="Amasty_Prot::product/view/options.phtml">
+                <arguments>
+                    <argument name="repository" xsi:type="object">Amasty\Prot\Model\Repository\TemplateOption</argument>
+                    <argument name="jsonSerializer" xsi:type="object">Amasty\Prot\Model\Serializer\Json</argument>
+                </arguments>
+                <block class="Magento\Catalog\Block\Product\View\Options\Type\DefaultType"
+                       name="am.prot.product.info.options.default" as="amprot_default"
+                       template="Amasty_Prot::product/view/options/type/default.phtml"/>
+                <block class="Magento\Catalog\Block\Product\View\Options\Type\Text" name="am.prot.product.info.options.text"
+                       as="amprot_text" template="Amasty_Prot::product/view/options/type/text.phtml"/>
+                <block class="Magento\Catalog\Block\Product\View\Options\Type\File" name="am.prot.product.info.options.file"
+                       as="amprot_file" template="Amasty_Prot::product/view/options/type/file.phtml"/>
+                <block class="Amasty\Prot\Block\Catalog\Block\Product\View\Type\Select"
+                       name="am.prot.product.info.options.select" as="amprot_select"
+                       template="Amasty_Prot::product/view/options/type/select.phtml"/>
+                <block class="Magento\Catalog\Block\Product\View\Options\Type\Date" name="am.prot.product.info.options.date"
+                       as="amprot_date" template="Amasty_Prot::product/view/options/type/date.phtml"/>
+            </block>
+            <block class="Magento\Framework\View\Element\Html\Calendar" name="amprot_html_calendar"
+                   template="Magento_Theme::js/calendar.phtml"/>
+        </referenceBlock>
+    </body>
+</page>

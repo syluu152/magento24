@@ -1,0 +1,83 @@
+<!--
+  ~ @author    Tigren Solutions <info@tigren.com>
+  ~ @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+  ~ @license   Open Software License ("OSL") v. 3.0
+  -->
+
+<div class="amprot-option-wrapper">
+    <label if="element.label" class="admin__field-label" attr="for: element.uid" translate="element.label"></label>
+    <div class="admin__field-control" data-role="grid-wrapper">
+        <div class="admin__control-table-pagination" visible="!!element.getRecordCount()">
+            <div class="admin__data-grid-pager">
+                <button class="action-previous"
+                        type="button"
+                        data-bind="attr: {title: $t('Previous Page')}, click: previousPage, disable: isFirst()">
+                </button>
+                <input class="admin__control-text"
+                       type="number"
+                       data-bind="attr: {id: ++ko.uid}, value: currentPage">
+                <label class="admin__control-support-text"
+                       data-bind="attr: {for: ko.uid}, text: 'of ' + pages()">
+                </label>
+                <button class="action-next"
+                        type="button"
+                        data-bind="attr: {title: $t('Next Page')}, click: nextPage, disable: isLast()">
+                </button>
+            </div>
+        </div>
+        <table class="admin__dynamic-rows admin__control-collapsible" data-role="grid" attr="'data-index': index">
+            <thead if="element.columnsHeader">
+                <tr data-bind="foreach: {data: labels, as: 'label'}">
+                    <th translate="label.config.label" css="item.columnsHeaderClasses"></th>
+                </tr>
+            </thead>
+
+            <tbody data-bind="foreach: elems">
+                <tr class="data-row" data-bind="foreach: {data: elems, as: 'elem'}">
+                    <td css="$parents[1].setClasses(elem)" if="elem.template">
+                        <div class="fieldset-wrapper admin__collapsible-block-wrapper"
+                             collapsible="openClass: '_show', closeOnOuter: false, opened: elem.opened()">
+                            <div class="fieldset-wrapper-title">
+                                <div class="admin__collapsible-title" data-role="collapsible-title" click="elem.toggleOpened">
+                                    <render args="name: $parents[1].dndConfig.template, data: $parents[1].dnd"
+                                            if="$parents[1].dndConfig.enabled" />
+                                    <span translate="$parent.getLabel(elem)"></span>
+                                </div>
+
+                                <button class="amprot-button -clear -copy"
+                                        type="button"
+                                        data-index="button_add"
+                                        data-bind="
+                                            attr: {
+                                                title: $t('Duplicate')
+                                            },
+                                            click: function(){
+                                                $parents[1].duplicateOption($parent);
+                                            }"
+                                        if="$parents[1].dndConfig.enabled">
+                                </button>
+
+                                <button class="action-delete"
+                                        data-index="delete_button"
+                                        type="button"
+                                        data-bind="
+                                            attr: {
+                                                title: $t('Delete')
+                                            },
+                                            click: function(){
+                                                $parents[1].deleteHandler($parent.index, $parent.recordId)
+                                            }">
+                                </button>
+                            </div>
+                            <div class="admin__collapsible-content"
+                                 css="{_show: $data.opened()}"
+                                 data-role="collapsible-content"
+                                 template="elem.template">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

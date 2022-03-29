@@ -1,0 +1,71 @@
+<?php
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+    /* @var $block \Magento\Catalog\Block\Product\View\Options\Type\Text */
+
+    $type_area = \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_AREA;
+    $type_field = \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_FIELD;
+    $option = $block->getOption();
+    $class = $option->getIsRequire() ? 'required' : '';
+    $class .= $block->getParentBlock()->getDependencyClass($option);
+    $textValidate = null;
+    $textValidate['required'] = $option->getIsRequire() ? true : false;
+    $textValidate['maxlength'] = $option->getMaxCharacters() ? $option->getMaxCharacters() : false;
+    $textValidate['validate-no-utf8mb4-characters'] = true;
+?>
+
+<div class="amprot-field <?= $block->escapeHtml($class) ?>" data-amprot-js="field">
+    <label class="amprot-label" for="amprot-options_<?= $block->escapeHtml($option->getId()) ?>_text">
+        <?= $block->escapeHtml($option->getTitle()) ?>
+        <?= /* @noEscape */ $block->getFormattedPrice() ?>
+    </label>
+    <div class="amprot-input-block">
+        <?php if ($option->getType() == $type_field): ?>
+            <input id="amprot-options_<?= $block->escapeHtml($option->getId()) ?>_text"
+                   class="amprot-input-text product-custom-option"
+                   type="text"
+                   <?php if (!empty($textValidate)) {?>
+                     data-validate="<?= $block->escapeHtml(json_encode($textValidate)) ?>"
+                   <?php } ?>
+                   name="options[<?= $block->escapeHtml($option->getId()) ?>]"
+                   data-selector="options[<?= $block->escapeHtml($option->getId()) ?>]"
+                   value="<?= $block->escapeHtml($block->getDefaultValue()) ?>"
+                   data-option-id="<?= (int) $option->getId() ?>"
+            />
+        <?php elseif ($option->getType() == $type_area): ?>
+            <textarea id="amprot-options_<?= $block->escapeHtml($option->getId()) ?>_text"
+                      class="amprot-input-textarea product-custom-option"
+                      <?php if (!empty($textValidate)) {?>
+                        data-validate="<?= $block->escapeHtml(json_encode($textValidate)) ?>"
+                      <?php } ?>
+                      name="options[<?= $block->escapeHtml($option->getId()) ?>]"
+                      data-selector="options[<?= $block->escapeHtml($option->getId()) ?>]"
+                      data-option-id="<?= (int) $option->getId() ?>"
+                      rows="5"
+                      cols="25"></textarea>
+        <?php endif; ?>
+        <?php if ($option->getMaxCharacters()): ?>
+            <p class="amprot-note-block amprot-note_<?= $block->escapeHtml($option->getId()) ?>">
+                <?= $block->escapeHtml(__('Maximum %1 characters', $option->getMaxCharacters())) ?>
+                <span class="amprot-character-counter no-display"></span>
+            </p>
+        <?php endif; ?>
+    </div>
+    <?php if ($option->getMaxCharacters()): ?>
+        <script type="text/x-magento-init">
+        {
+            "[data-selector='options[<?= $block->escapeHtml($option->getId()) ?>]']": {
+                "Magento_Catalog/js/product/remaining-characters": {
+                    "maxLength":  "<?= $block->escapeHtml($option->getMaxCharacters()) ?>",
+                    "noteSelector": ".amprot-note_<?= $block->escapeHtml($option->getId()) ?>",
+                    "counterSelector": ".amprot-note_<?= $block->escapeHtml($option->getId()) ?> .amprot-character-counter"
+                }
+            }
+        }
+    </script>
+    <?php endif; ?>
+</div>

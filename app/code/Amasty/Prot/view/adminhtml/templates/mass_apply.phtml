@@ -1,0 +1,49 @@
+<?php
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+/* @var $block \Amasty\Prot\Block\Adminhtml\Product\Edit\Action\Attribute\Tab\MassUpdate\Content */
+$templateCollection = $block->getTemplates();
+?>
+
+<div class="field" id="product-template-container">
+    <?php if (count($templateCollection)): ?>
+        <table class="amprot-table-block">
+            <thead>
+                <tr>
+                    <th><?= $block->escapeHtml(__('Template')) ?></th>
+                    <th><?= $block->escapeHtml(__('Assign')) ?></th>
+                    <th><?= $block->escapeHtml(__('Remove')) ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($templateCollection as $template): ?>
+                <tr>
+                    <td><?= $block->escapeHtml($template->getName()) ?></td>
+                    <td>
+                        <input id="add_product_website_1"
+                               class="checkbox website-checkbox"
+                               name="amprot_add_amtemplate[]"
+                               value="<?= (int)$template->getId() ?>"
+                               type="checkbox"
+                        />
+                    </td>
+                    <td>
+                        <input id="add_product_website_1"
+                               class="checkbox website-checkbox"
+                               name="amprot_remove_amtemplate[]"
+                               value="<?= (int)$template->getId() ?>"
+                               type="checkbox"
+                        />
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <div class="message info empty"><?= $block->escapeHtml(__('We can\'t find templates.')) ?></div>
+    <?php endif; ?>
+</div>

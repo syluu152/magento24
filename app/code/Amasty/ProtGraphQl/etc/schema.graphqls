@@ -1,0 +1,91 @@
+type Query {
+    amProductOptionsProvider (
+        productId: Int @doc(description: "Product ID")
+    ): AmProtOptionList @resolver(class: "Amasty\\ProtGraphQl\\Model\\Resolver\\OptionProvider")
+}
+
+type AmProtOptionList {
+    items: [AmProtCustomizableOptionInterface] @doc(description: "Options.")
+    dependencies: [AmProtOptionDependency] @doc(description: "Option dependencies.")
+}
+
+type AmProtOptionDependency {
+    parents: [AmProtDependency] @doc(description: "Parent Options.")
+    option_id: Int @doc(description: "Option ID.")
+}
+
+type AmProtDependency {
+    type: String @doc(description: "Option type.")
+    option_id: Int @doc(description: "Option ID.")
+    values: [Int] @doc(description: "Depend option values (option_type_id)")
+}
+
+interface AmProtCustomizableOptionInterface @typeResolver(class: "Amasty\\ProtGraphQl\\Model\\CustomizableOptionTypeResolver") @doc(description: "The AmProtCustomizableOptionInterface contains basic information about a amasty template customizable option. It can be implemented by several types of configurable options.") {
+    title: String @doc(description: "The display name for this option.")
+    type: String @doc(description: "Option type.")
+    required: Boolean @doc(description: "Indicates whether the option is required.")
+    sort_order: Int @doc(description: "The order in which the option is displayed.")
+    option_id: Int @doc(description: "Option ID.")
+    font_color: String @doc(description: "Option font color.")
+    font_size: Int @doc(description: "Option font size.")
+}
+
+type AmProtCustomizableFieldOption implements AmProtCustomizableOptionInterface @doc(description: "AmProtCustomizableFieldOption contains information about a text field that is defined as part of a customizable option.") {
+    value: CustomizableFieldValue @doc(description: "An object that defines a text field.")
+    product_sku: String @doc(description: "The Stock Keeping Unit of the base product.")
+}
+
+type AmProtCustomizableDateOption implements AmProtCustomizableOptionInterface @doc(description: "AmProtCustomizableDateOption contains information about a date picker that is defined as part of a customizable option.") {
+    value: CustomizableDateValue @doc(description: "An object that defines a date field in a customizable option.")
+    product_sku: String @doc(description: "The Stock Keeping Unit of the base product.")
+}
+
+type AmProtCustomizableFileOption implements AmProtCustomizableOptionInterface @doc(description: "AmProtCustomizableFileOption contains information about a file picker that is defined as part of a customizable option.") {
+    value: CustomizableFileValue @doc(description: "An object that defines a file value.")
+    product_sku: String @doc(description: "The Stock Keeping Unit of the base product.")
+}
+
+type AmProtCustomizableAreaOption implements AmProtCustomizableOptionInterface @doc(description: "AmProtCustomizableAreaOption contains information about a text area that is defined as part of a customizable option.") {
+    value: CustomizableAreaValue @doc(description: "An object that defines a text area.")
+    product_sku: String @doc(description: "The Stock Keeping Unit of the base product.")
+}
+
+type AmProtCustomizableDropDownOption implements AmProtCustomizableOptionInterface @doc(description: "AmProtCustomizableDropDownOption contains information about a drop down menu that is defined as part of a customizable option.") {
+    value: [AmProtCustomizableDropDownValue] @doc(description: "An array that defines the set of options for a drop down menu.")
+    use_swatches: Int @doc(description: "Use swatches for option")
+    option_list_type: Int @doc(description: "Option List Type")
+}
+
+type AmProtCustomizableMultipleOption implements AmProtCustomizableOptionInterface @doc(description: "AmProtCustomizableMultipleOption contains information about a multiselect that is defined as part of a customizable option.") {
+    value: [AmProtCustomizableMultipleValue] @doc(description: "An array that defines the set of options for a multiselect.")
+    use_swatches: Int @doc(description: "Use swatches for option")
+    option_list_type: Int @doc(description: "Option List Type")
+}
+
+type AmProtCustomizableRadioOption implements AmProtCustomizableOptionInterface @doc(description: "AmProtCustomizableRadioOption contains information about a set of radio buttons that are defined as part of a customizable option.") {
+    value: [CustomizableRadioValue] @doc(description: "An array that defines a set of radio buttons.")
+}
+
+type AmProtCustomizableCheckboxOption implements AmProtCustomizableOptionInterface @doc(description: "AmProtCustomizableCheckboxOption contains information about a set of checkbox values that are defined as part of a customizable option.") {
+    value: [CustomizableCheckboxValue] @doc(description: "An array that defines a set of checkbox values.")
+}
+
+type AmProtCustomizableDropDownValue @doc(description: "AmProtCustomizableDropDownValue defines the price and sku of a product whose page contains a customized drop down menu.") {
+    option_type_id: Int @doc(description: "The ID assigned to the value.")
+    price: Float @doc(description: "The price assigned to this option.")
+    price_type: PriceTypeEnum @doc(description: "FIXED, PERCENT, or DYNAMIC.")
+    sku: String @doc(description: "The Stock Keeping Unit for this option.")
+    title: String @doc(description: "The display name for this option.")
+    sort_order: Int @doc(description: "The order in which the option is displayed.")
+    swatch_value: String @doc(description: "Swatch value - image or color code.")
+}
+
+type AmProtCustomizableMultipleValue @doc(description: "CustomizableMultipleValue defines the price and sku of a product whose page contains a customized multiselect.") {
+    option_type_id: Int @doc(description: "The ID assigned to the value.")
+    price: Float @doc(description: "The price assigned to this option.")
+    price_type: PriceTypeEnum @doc(description: "FIXED, PERCENT, or DYNAMIC.")
+    sku: String @doc(description: "The Stock Keeping Unit for this option.")
+    title: String @doc(description: "The display name for this option.")
+    sort_order: Int @doc(description: "The order in which the option is displayed.")
+    swatch_value: String @doc(description: "Swatch value - image or color code.")
+}

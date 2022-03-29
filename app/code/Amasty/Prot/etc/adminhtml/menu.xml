@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ @author    Tigren Solutions <info@tigren.com>
+  ~ @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+  ~ @license   Open Software License ("OSL") v. 3.0
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Amasty_Prot::prot"
+             title="Product Option Templates"
+             module="Amasty_Prot"
+             parent="Magento_Catalog::catalog"
+             sortOrder="160"
+             resource="Amasty_Prot::prot"/>
+        <add id="Amasty_Prot::templates"
+             title="Template List"
+             sortOrder="10"
+             module="Amasty_Prot"
+             parent="Amasty_Prot::prot"
+             action="amprot/templates/index"
+             resource="Amasty_Prot::templates"/>
+    </menu>
+</config>

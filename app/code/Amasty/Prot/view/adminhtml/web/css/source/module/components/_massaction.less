@@ -1,0 +1,79 @@
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+//
+//  Massaction Styles
+// _______________________________________________
+
+//
+//  Imports
+//  ----------------------------------------------
+
+@import '../_mixins';
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .amasty-paction-form {
+        & {
+            .am-flex(space-between, none, wrap);
+
+            align-items: center;
+            padding: @amprot__indent;
+        }
+
+        > .action-save {
+            margin: @amprot__indent 0 0;
+            vertical-align: middle;
+        }
+    }
+
+    .amasty-paction-select {
+        margin: @amprot__indent @amprot__indent 0 0;
+        max-width: calc(~"100% - 80px");
+    }
+
+    .amasty-paction-label {
+        width: 100%;
+    }
+
+    // Override Magento styles
+    .amprot-templates-edit .modal-slide .action-select-wrap .action-close {
+        padding: 0;
+    }
+
+    .amprot-templates-edit .modal-popup .action-close:before, .modal-slide .action-select-wrap .action-close:before {
+        font-size: 1rem;
+    }
+
+    .action-menu .action-submenu {
+        top: 100%;
+        margin-top: 2px;
+    }
+
+    .action-select-wrap .action-menu {
+        max-height: 300px;
+    }
+
+    @-moz-document url-prefix() {
+        .action-select-wrap ul.action-menu {
+            max-height: 45rem;
+        }
+    }
+
+    .action-select-wrap .action-menu-items {
+        > .action-menu .action-submenu,
+        > .abs-action-menu .action-submenu .action-submenu,
+        > .action-menu .action-submenu .action-submenu,
+        > .actions-split .dropdown-menu .action-submenu .action-submenu,
+        > .actions-split .action-menu .action-submenu .action-submenu {
+            right: initial;
+            left: 0;
+        }
+    }
+}

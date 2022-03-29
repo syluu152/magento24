@@ -1,0 +1,119 @@
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+//
+//  Input radio/checkbox component styles
+//  ______________________________________________
+
+//
+//  Imports
+//  ----------------------------------------------
+
+@import '../_mixins';
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .amprot-radio-block,
+    .amprot-checkbox-block {
+        & {
+            .am-flex();
+
+            position: relative;
+            margin: 0 0 @amprot__indent__l 0;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        > .amprot-text {
+            .am-flex(space-between);
+            ._word-break;
+
+            flex-grow: 1;
+            padding: 0 0 0 @amprot__indent / 2;
+            color: @amprot-text__color;
+            font-style: normal;
+        }
+
+        > .amprot-input {
+            & {
+                ._am-visually-hidden;
+            }
+
+            &:checked ~ .amprot-mark {
+                border-color: @amprot__base__color;
+                background-color: @amprot__base__color;
+            }
+
+            &:checked ~ .amprot-mark:after {
+                display: block;
+            }
+
+            &:not(:checked):focus ~ .amprot-mark {
+                border-color: @amprot__hover__color;
+                box-shadow: 0 2px 4px rgba(63, 156, 215, .4);
+            }
+
+            &:checked ~ .amprot-text {
+                color: @amprot-text__color;
+                font-weight: bold;
+            }
+        }
+
+        > .amprot-mark {
+            ._am-checkbox;
+        }
+
+        &:hover,
+        &:focus {
+            .amprot-text {
+                color: @amprot__hover__color;
+            }
+
+            .amprot-mark {
+                border-color: @amprot__hover__color;
+            }
+        }
+    }
+
+    .amprot-checkbox-block > .amprot-mark {
+        & {
+            border-radius: 1px;
+        }
+
+        &:after {
+            ._am-checkbox-arrow;
+        }
+    }
+
+    .amprot-radio-block > .amprot-mark {
+        & {
+            border-radius: 50%;
+        }
+
+        &:after {
+            display: none;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #fff;
+            content: '';
+        }
+    }
+
+    .amprot-text > .amprot-value {
+        width: 100%;
+    }
+
+    // Magento styles override
+    .-checkable .mage-error {
+        padding-top: @amprot__indent / 2;
+        border-top: 1px solid #f4dcdc;
+    }
+    // END Magento styles override
+}

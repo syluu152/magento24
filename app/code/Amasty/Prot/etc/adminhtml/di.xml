@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ @author    Tigren Solutions <info@tigren.com>
+  ~ @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+  ~ @license   Open Software License ("OSL") v. 3.0
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Magento\Catalog\Controller\Adminhtml\Product\Action\Attribute\Save">
+        <plugin name="Amasty_Prot::AttributeSave" type="Amasty\Prot\Plugin\Catalog\Controller\Adminhtml\Product\Action\Attribute\SavePlugin" />
+    </type>
+
+    <type name="Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider">
+        <plugin name="Amasty_Prot::add_mass_actions" type="Amasty\Prot\Plugin\Catalog\Ui\DataProvider\Product\ProductDataProviderPlugin" />
+    </type>
+
+    <type name="Magento\Catalog\Model\Product\Option\Repository">
+        <plugin name="Amasty_Prot::filter_options" type="Amasty\Prot\Plugin\Catalog\Model\Product\Option\RepositoryPlugin" />
+    </type>
+
+    <type name="Magento\Catalog\Model\Product\Option\SaveHandler">
+        <plugin name="Amasty_Prot::add_flag" type="Amasty\Prot\Plugin\Catalog\Model\Product\Option\SaveHandlerPlugin" />
+    </type>
+
+    <type name="Magento\CatalogStaging\Model\Product\Operation\Update\TemporaryUpdateProcessor">
+        <plugin name="Amasty_Prot::add_flag" type="Amasty\Prot\Plugin\CatalogStaging\Model\Product\Operation\Update\TemporaryUpdateProcessorPlugin" />
+    </type>
+
+    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="amprot" xsi:type="array">
+                    <item name="class" xsi:type="string">Amasty\Prot\Ui\DataProvider\Product\Form\Modifier\ProductOptionTemplates</item>
+                    <item name="sortOrder" xsi:type="number">75</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="TemplateFormModifierPool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="amprot1" xsi:type="array">
+                    <item name="class" xsi:type="string">Amasty\Prot\Ui\DataProvider\Product\Form\Modifier\GridOptionTemplates</item>
+                    <item name="sortOrder" xsi:type="number">75</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Amasty\Prot\Model\Template\FormDataProvider">
+        <arguments>
+            <argument name="pool" xsi:type="object">TemplateFormModifierPool</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Model\ResourceModel\Product\Option\Collection">
+        <plugin name="Amasty_Prot::add_template_data" type="Amasty\Prot\Plugin\Catalog\Model\ResourceModel\Product\Option\CollectionPlugin" />
+    </type>
+
+    <type name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\CustomOptions">
+        <arguments>
+            <argument name="locator" xsi:type="object">Amasty\Prot\Model\Catalog\Locator\RegistryLocator</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="Amasty_Prot::set_has_option_flag" type="Amasty\Prot\Plugin\Catalog\Model\ProductPlugin" />
+    </type>
+
+    <type name="Magento\Bundle\Ui\DataProvider\Product\Form\Modifier\BundleCustomOptions">
+        <plugin name="Amasty_Prot::set_has_option_flag" type="Amasty\Prot\Plugin\Bundle\Ui\DataProvider\Product\Form\Modifier\BundleCustomOptionsPlugin" />
+    </type>
+
+    <type name="Magento\Catalog\Model\Product\Option\Value">
+        <plugin name="Amasty_Prot::save_template_option_value" type="Amasty\Prot\Plugin\Catalog\Model\Product\Option\ValuePlugin" />
+    </type>
+
+    <type name="Magento\Staging\Model\Operation\Update\CreateEntityVersion">
+        <plugin name="Amasty_Prot::set_has_option_flag" type="Amasty\Prot\Plugin\Staging\Model\Operation\Update\CreateEntityVersionPlugin" />
+    </type>
+</config>

@@ -1,0 +1,77 @@
+<?php
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+/* @var $block \Amasty\Prot\Block\Catalog\Block\Product\View\Type\Select\Checkable */
+
+use Magento\Catalog\Model\Product\Option;
+
+$option = $block->getOption();
+$configValue = $block->getPreconfiguredValue($option);
+$optionType = $option->getType();
+$arraySign = $optionType === Option::OPTION_TYPE_CHECKBOX ? '[]' : '';
+$count = 1;
+?>
+
+<?php if ($option): ?>
+    <div class="amprot-options-list nested" id="amprot-options-<?= $block->escapeHtmlAttr($option->getId()) ?>-list">
+        <?php if ($optionType === Option::OPTION_TYPE_RADIO && !$option->getIsRequire()):?>
+            <label class="amprot-radio-block">
+                <input id="amprot-options_<?= $block->escapeHtmlAttr($option->getId()) ?>"
+                       class="amprot-input product-custom-option"
+                       type="radio"
+                       value
+                       name="options[<?= $block->escapeHtmlAttr($option->getId()) ?>]"
+                       data-selector="options[<?= $block->escapeHtmlAttr($option->getId()) ?>]"
+                       onclick="<?= $block->getSkipJsReloadPrice() ? '' : 'opConfig.reloadPrice()' ?>"
+                       checked="checked"
+                       data-option-id="<?= (int) $option->getId() ?>"
+                />
+                <span class="amprot-mark"></span>
+                <span class="amprot-text">
+                    <?= $block->escapeHtml(__('None')) ?>
+                </span>
+            </label>
+        <?php endif; ?>
+
+        <?php foreach ($option->getValues() as $value): ?>
+            <?php
+            $checked = '';
+            $count++;
+            $dataSelector = 'options[' . $option->getId() . ']';
+            if ($arraySign) {
+                $checked = is_array($configValue) && in_array($value->getOptionTypeId(), $configValue) ? 'checked' : '';
+                $arraySign = '[' . $value->getOptionTypeId() . ']';
+                $dataSelector .= $arraySign;
+            } else {
+                $checked = $configValue == $value->getOptionTypeId() ? 'checked' : '';
+            }
+            ?>
+
+            <label class="<?= $optionType === Option::OPTION_TYPE_RADIO
+                          ? 'amprot-radio-block' : 'amprot-checkbox-block' ?>
+                          <?= /* @noEscape */ $option->getIsRequire() ? 'required' : '' ?>">
+                <input id="amprot-options_<?= $block->escapeHtmlAttr($option->getId() . '_' . $count) ?>"
+                       class="amprot-input product-custom-option
+                              <?= $option->getIsRequire() ? 'required' : '' ?>
+                              <?= $block->getSkipJsReloadPrice() ? '' : 'opConfig.reloadPrice()' ?>"
+                       type="<?= $block->escapeHtmlAttr($optionType) ?>"
+                       name="options[<?= $block->escapeHtmlAttr($option->getId()) ?>]<?= /* @noEscape */ $arraySign ?>"
+                       value="<?= $block->escapeHtmlAttr($value->getOptionTypeId()) ?>"
+                       data-selector="<?= $block->escapeHtmlAttr($dataSelector) ?>"
+                       data-option-id="<?= (int) $option->getId() ?>"
+                       price="<?= $block->escapeHtmlAttr($block->getCurrencyByStore($value)) ?>"
+                       <?= $block->escapeHtml($checked) ?>
+                />
+                <span class="amprot-mark"></span>
+                <span class="amprot-text">
+                    <span class="amprot-value"><?= $block->escapeHtml($value->getTitle()) ?></span>
+                    <?= /* @noEscape */ $block->formatPrice($value) ?>
+                </span>
+            </label>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>

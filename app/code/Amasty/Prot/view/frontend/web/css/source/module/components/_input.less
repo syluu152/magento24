@@ -1,0 +1,73 @@
+/*
+ * @author    Tigren Solutions <info@tigren.com>
+ * @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+
+//
+//  Input component styles
+//  ______________________________________________
+
+//
+//  Imports
+//  ----------------------------------------------
+
+@import '../_mixins';
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .amprot-input-block .amprot-input-text,
+    .amprot-input-block .amprot-input-textarea {
+        & {
+            .transition(.1);
+
+            box-sizing: border-box;
+            padding: 0 @amprot__indent;
+            width: 100%;
+            height: 30px;
+            border: 1px solid @amprot-line__color__light;
+            border-radius: @amprot__border-radius;
+            color: @amprot-text__color;
+            vertical-align: baseline;
+            line-height: 1.4;
+        }
+
+        &::placeholder {
+            color: @amprot-line__color__light;
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: @amprot-line__color;
+        }
+
+        &:not([disabled]):focus {
+            box-shadow: none;
+        }
+
+        // ie11 fix
+        &:-ms-input-placeholder {
+            color: @amprot-line__color__light;
+        }
+    }
+
+    .amprot-input-block .amprot-input-textarea {
+        display: block;
+        padding: @amprot__indent;
+        height: auto;
+    }
+}
+
+//
+//  Tablet +
+//  --------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .amprot-input-block {
+        max-width: 80%;
+    }
+}

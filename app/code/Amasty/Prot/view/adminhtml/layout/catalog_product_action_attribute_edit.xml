@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ @author    Tigren Solutions <info@tigren.com>
+  ~ @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
+  ~ @license   Open Software License ("OSL") v. 3.0
+  -->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="attributes_tabs">
+            <block class="Amasty\Prot\Block\Adminhtml\Product\Edit\Action\Attribute\Tab\MassUpdate" name="amprot.mass.apply"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">amprot</argument>
+                <argument name="block" xsi:type="string">amprot.mass.apply</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>
