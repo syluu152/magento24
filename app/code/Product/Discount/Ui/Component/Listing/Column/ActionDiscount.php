@@ -59,7 +59,7 @@ class ActionDiscount extends Column
                             'discount_admin/discount/edit',
                             ['id' => $item['id']]
                         ),
-                        'label' => __('edit'),
+                        'label' => __('Edit'),
                         'hidden' => false,
                     ],
                     'viewproduct' => [
@@ -67,7 +67,7 @@ class ActionDiscount extends Column
                             'discount_admin/discount/productOfDiscount',
                             ['id' => $item['id']]
                         ),
-                        'label' => __('products of discount'),
+                        'label' => __('Products of Discount'),
                         'hidden' => false,
                     ],
                     'addproduct' => [
@@ -75,7 +75,7 @@ class ActionDiscount extends Column
                             'discount_admin/discount/product',
                             ['id' => $item['id']]
                         ),
-                        'label' => __('add product'),
+                        'label' => __('Add Product'),
                         'hidden' => false,
                     ]
                 ];
