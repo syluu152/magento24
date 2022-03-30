@@ -244,9 +244,9 @@
                         <item name="cssclass" xsi:type="string">product-grid-insert-listing</item>
                         <item name="dataScope" xsi:type="string">products_list_container</item>
                         <item name="autoRender" xsi:type="boolean">false</item>
-                        <item name="selectionsProvider" xsi:type="string">amprot_product_listing.amprot_product_listing.parent_product_listing_columns.ids</item>
-                        <item name="externalProvider" xsi:type="string">amprot_product_listing.amprot_product_listing_data_source</item>
-                        <item name="ns" xsi:type="string">amprot_product_listing</item>
+                        <item name="selectionsProvider" xsi:type="string">exam_product_listing.exam_product_listing.parent_product_listing_columns.ids</item>
+                        <item name="externalProvider" xsi:type="string">exam_product_listing.exam_product_listing_data_source</item>
+                        <item name="ns" xsi:type="string">exam_product_listing</item>
                         <item name="realTimeLink" xsi:type="boolean">true</item>
                         <item name="behaviourType" xsi:type="string">edit</item>
                         <item name="dataLinks" xsi:type="array">

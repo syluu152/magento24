@@ -90,6 +90,9 @@ class Save extends Action
         $today = date('Y/m/d h:i:s');
         $valueModelDiscount['create_at'] = $today;
 
+        $productIds = isset($valueModelDiscount['products_list_container'])
+            ? array_column($valueModelDiscount['products_list_container'], 'entity_id')
+            : [];
         $dataDiscount = [
             'discount_amount' => $valueModelDiscount['discount_amount'],
             'name' => $valueModelDiscount['name'],
@@ -97,9 +100,9 @@ class Save extends Action
             'active' => $valueModelDiscount['active'],
             'start_time' => $valueModelDiscount['start_time'],
             'end_time' => $valueModelDiscount['end_time'],
-            'create_at' => $valueModelDiscount['create_at']
+            'create_at' => $valueModelDiscount['create_at'],
+            'product_id' => implode(',', $productIds)
         ];
-
         if (!empty($valueModelDiscount['id'])) {
             $model->load($valueModelDiscount['id']);
             $model->addData($dataDiscount);
