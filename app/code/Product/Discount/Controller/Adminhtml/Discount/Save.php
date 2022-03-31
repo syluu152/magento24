@@ -83,9 +83,6 @@ class Save extends Action
         $collectionCustomerGroup = $this->_collectionCustomerGroup->create();
 
         $valueModelDiscount = $this->getRequest()->getPostValue();
-        $valueCustomerGroup = $valueModelDiscount['id_customer_group'];
-
-        unset($valueModelDiscount['id_customer_group']);
 
         $today = date('Y/m/d h:i:s');
         $valueModelDiscount['create_at'] = $today;
@@ -93,6 +90,10 @@ class Save extends Action
         $productIds = isset($valueModelDiscount['products_list_container'])
             ? array_column($valueModelDiscount['products_list_container'], 'entity_id')
             : [];
+
+        $customerIds = isset($valueModelDiscount['id_customer_group'])
+            ? implode(',', $valueModelDiscount['id_customer_group'])
+            : '';
         $dataDiscount = [
             'discount_amount' => $valueModelDiscount['discount_amount'],
             'name' => $valueModelDiscount['name'],
@@ -101,7 +102,8 @@ class Save extends Action
             'start_time' => $valueModelDiscount['start_time'],
             'end_time' => $valueModelDiscount['end_time'],
             'create_at' => $valueModelDiscount['create_at'],
-            'product_id' => implode(',', $productIds)
+            'product_id' => implode(',', $productIds),
+            'id_cus_group' => $customerIds
         ];
         if (!empty($valueModelDiscount['id'])) {
             $model->load($valueModelDiscount['id']);
@@ -115,16 +117,7 @@ class Save extends Action
                 $modelCustomerGroup->load($value)->delete();
             }
 
-            // data multiselect new
-            foreach ($valueCustomerGroup as $value) {
-                $modelCustomerGroup = $this->_customerGroupFactory->create();
-                $data = [
-                    'id_discount' => $valueModelDiscount['id'],
-                    'id_customer_group' => $value,
-                    'create_at' => $today
-                ];
-                $modelCustomerGroup->addData($data)->save();
-            }
+
             $message = 'Đã sửa thành công';
             if ($this->getRequest()->getParam('back')) {
                 $this->_redirect('discount_admin/discount/edit', ['id' => $model->getId()]);
@@ -136,17 +129,6 @@ class Save extends Action
             try {
                 $model->addData($dataDiscount)->save();
 
-                $idDiscount = $model->getData('id');
-
-                foreach ($valueCustomerGroup as $value) {
-                    $modelCustomerGroup = $this->_customerGroupFactory->create();
-                    $data = [
-                        'id_discount' => $idDiscount,
-                        'id_customer_group' => $value,
-                        'create_at' => $today
-                    ];
-                    $modelCustomerGroup->addData($data)->save();
-                }
                 $message = 'Đã thêm thành công';
                 $this->_messageManager->addSuccessMessage($message);
                 return $this->_redirect('discount_admin/discount/view', [$resultPage]);
