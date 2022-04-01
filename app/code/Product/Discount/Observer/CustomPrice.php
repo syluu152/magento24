@@ -11,52 +11,63 @@ use Product\Discount\Model\Discount\ResourceModel\Discount\Collection as Discoun
 use Magento\Customer\Model\Session;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Product\Discount\Model\Discount\DiscountFactory;
+
+//load model
 
 class CustomPrice implements ObserverInterface
 {
     protected $_customerSession;
-    //    protected $_discountProduct;
     protected $discountCollection;
+    protected $discountFactory;
 
     public function __construct(
         Session $customerSession,
-        DiscountCollection $discountCollection
+        DiscountCollection $discountCollection,
+        DiscountFactory $discountFactory
     ) {
         $this->_customerSession = $customerSession;
         $this->discountCollection = $discountCollection;
+        $this->discountFactory = $discountFactory; //load Model
     }
 
     public function execute(Observer $observer)
     {
-        $item = $observer->getEvent()->getData('quote_item');
-        $item = ($item->getParentItem() ? $item->getParentItem() : $item);
-        $id = $item->getId();
-
-        //        $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/custom.log');
-        //        $logger = new \Zend_Log();
-        //        $logger->addWriter($writer);
-        //        $logger->info(print_r('$id', true));
-
-        $idCustomerGroup = $this->_customerSession->getCustomerGroupId();
-        $collection = $this->discountCollection;
-        $mappingDiscounts = [];
-        foreach ($collection as $item) {
-            $productIdInDiscount = $item->getProductId();
-            $idInCustomerGroup = $item->getIdCusGroup();
-            $productIdInDiscountArr = explode(',', $productIdInDiscount);
-            $idInCustomerGroupArr = explode(',', $idInCustomerGroup);
-            if (in_array($id, $productIdInDiscountArr) && in_array($idCustomerGroup, $idInCustomerGroupArr)) {
-                $mappingDiscounts[] = $item->getId();
+        try {
+            $item = $observer->getEvent()->getData('quote_item');
+            $item = ($item->getParentItem() ? $item->getParentItem() : $item);
+            $id = $item->getId();
+            $idCustomerGroup = $this->_customerSession->getCustomerGroupId();
+            $collection = $this->discountCollection;
+            $discountId = '';
+            foreach ($collection as $item) {
+                $productIdInDiscount = $item->getProductId();
+                $idInCustomerGroup = $item->getIdCusGroup();
+                $productIdInDiscountArr = explode(',', $productIdInDiscount);
+                $idInCustomerGroupArr = explode(',', $idInCustomerGroup);
+                if (in_array($id, $productIdInDiscountArr) && in_array($idCustomerGroup, $idInCustomerGroupArr)) {
+                    $discountId = $item->getId();
+                    break;
+                }
             }
-        }
-        //        $discount = $this->_discountProduct->getDiscountOfProduct($idCustomerGroup, $productIds);
-        $discountAmount = (empty($discount)) ? 0 : $discount['discount_amount'];
+            if ($discountId) {
+                $discountData = $this->discountFactory->create()->load($discountId); //load Model
+                $percentDiscount = $discountData->getData('discount_amount');
+            }
+            $discountAmount = (empty($percentDiscount)) ? 0 : $percentDiscount['discount_amount'];
 
-        $oldPrice = $item->getProduct()->getPrice();
-        $price = $oldPrice * (1 - $discountAmount / 100);
-        $item->setCustomPrice($price);
-        $item->setOriginalCustomPrice($price);
-        $item->getProduct()->setIsSuperMode(true);
+            $oldPrice = $item->getProduct()->getPrice();
+            $price = $oldPrice * (1 - $discountAmount / 100);
+            $item->setCustomPrice($price);
+            $item->setOriginalCustomPrice($price);
+            $item->getProduct()->setIsSuperMode(true);
+        } catch (\Exception $e) {
+            $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/custom.log');
+            $logger = new \Zend_Log();
+            $logger->addWriter($writer);
+            $logger->info(print_r($e->getMessage(), true));
+        }
+
     }
 
 }
