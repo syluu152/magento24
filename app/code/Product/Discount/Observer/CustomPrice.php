@@ -7,6 +7,7 @@
 
 namespace Product\Discount\Observer;
 
+use Magento\Checkout\Model\Cart;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
@@ -14,6 +15,9 @@ use Product\Discount\Model\Discount\DiscountFactory;
 use Product\Discount\Model\Discount\ResourceModel\Discount\Collection as DiscountCollection;
 
 
+/**
+ *
+ */
 class CustomPrice implements ObserverInterface
 {
     /**
@@ -29,6 +33,9 @@ class CustomPrice implements ObserverInterface
      */
     protected $discountFactory;
 
+    /**
+     * @var
+     */
     protected $_cart;
 
     /**
@@ -40,7 +47,7 @@ class CustomPrice implements ObserverInterface
         Session $customerSession,
         DiscountCollection $discountCollection,
         DiscountFactory $discountFactory,
-        \Magento\Checkout\Model\Cart $cart
+        Cart $cart
     ) {
         $this->_customerSession = $customerSession;
         $this->discountCollection = $discountCollection;
