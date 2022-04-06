@@ -1,11 +1,5 @@
-<!--
-  ~ @author    Tigren Solutions <info@tigren.com>
-  ~ @copyright Copyright (c) 2022 Tigren Solutions <https://www.tigren.com>.All rights reserved.
-  ~ @license   Open Software License ("OSL") v. 3.0
-  -->
-
 <config>
     <type name="Magento\Catalog\Model\Product">
-        <plugin name="change_name_product" type="Product\Discount\Plugin\Productprice" sortOrder="1" disabled="true" />
+        <plugin name="change_product" type="Product\Discount\Plugin\Product" sortOrder="1" disabled="true" />
     </type>
 </config>
