@@ -29,12 +29,12 @@ class Index extends Action
         PageFactory $page
     ) {
         parent::__construct($context);
-        if (!$customerSession->isLoggedIn()) {
-            die('not login');
-            $this->_redirect('customer/account/login');
-        } else {
-            $this->_customerSession = $customerSession;
-        }
+        //        if (!$customerSession->isLoggedIn()) {
+        //            die('not login');
+        //            $this->_redirect('customer/account/login');
+        //        } else {
+        //            $this->_customerSession = $customerSession;
+        //        }
 
         $this->_pageFactory = $page;
         $this->_discountCollection = $discountCollection;
