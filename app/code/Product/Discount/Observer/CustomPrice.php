@@ -65,25 +65,27 @@ class CustomPrice implements ObserverInterface
                     $discountId = $item->getId();
                     $percentDiscount = $item->getData('discount_amount');
 
-
+                    $logger->info(print_r('$discountId', true));
                     $logger->info(print_r($discountId, true));
 
+                    $logger->info(print_r('$percentDiscount', true));
+                    $logger->info(print_r($percentDiscount, true));
                     break;
                 }
             }
+            //
+            //            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            //            $productCollection = $objectManager->create('Magento\Catalog\Model\Product')->load(product_id);
+            //            $productPriceById = $productCollection->getPrice();
+            //
+            //            $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/custom.log');
+            //            $logger = new \Zend_Log();
+            //            $logger->addWriter($writer);
+            //            $logger->info(print_r($productPriceById, true));
 
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $productCollection = $objectManager->create('Magento\Catalog\Model\Product')->load(product_id);
-            $productPriceById = $productCollection->getPrice();
-
-            $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/custom.log');
-            $logger = new \Zend_Log();
-            $logger->addWriter($writer);
-            $logger->info(print_r($productPriceById, true));
-
-            //            $oldPrice = $item->getProduct()->getPrice();
-            //            $price = $oldPrice * (1 - $percentDiscount / 100);
-            $price = $productPriceById * (1 - $percentDiscount / 100);
+            //                        $oldPrice = $item->getProduct()->getPrice();
+            $price = $oldPrice * (1 - $percentDiscount / 100);
+            //            $price = $productPriceById * (1 - $percentDiscount / 100);
 
             $item->setCustomPrice($price);
             $item->setOriginalCustomPrice($price);

@@ -6,6 +6,6 @@
 
 <config>
     <type name="Magento\Catalog\Model\Product">
-        <plugin name="change_product" type="Product\Discount\Plugin\Productprice" sortOrder="1" disabled="true" />
+        <plugin name="change_name_product" type="Product\Discount\Plugin\Productprice" sortOrder="1" disabled="true" />
     </type>
 </config>
