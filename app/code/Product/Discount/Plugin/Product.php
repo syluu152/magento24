@@ -19,7 +19,7 @@ class Product
     ) {
         $this->_customerSession = $customerSession;
         $this->discountCollection = $discountCollection;
-        $this->discountFactory = $discountFactory; //load Model
+        $this->discountFactory = $discountFactory;
     }
 
     public function afterGetPrice(\Magento\Catalog\Model\Product $subject, $result)
