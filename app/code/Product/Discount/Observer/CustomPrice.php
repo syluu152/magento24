@@ -7,12 +7,8 @@
 
 namespace Product\Discount\Observer;
 
-use Magento\Checkout\Model\Cart;
-use Magento\Customer\Model\Session;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Product\Discount\Model\Discount\DiscountFactory;
-use Product\Discount\Model\Discount\ResourceModel\Discount\Collection as DiscountCollection;
 use Product\Discount\Helper\Data;
 
 
@@ -21,8 +17,14 @@ use Product\Discount\Helper\Data;
  */
 class CustomPrice implements ObserverInterface
 {
+    /**
+     * @var Data
+     */
     protected $helper;
 
+    /**
+     * @param Data $helper
+     */
     public function __construct(
         Data $helper
     ) {
