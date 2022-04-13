@@ -7,21 +7,40 @@
 
 namespace Product\Discount\Plugin\Magento\Catalog\Model;
 
+use Magento\Framework\Registry;
 use Product\Discount\Helper\Data;
 
+/**
+ *
+ */
 class Product
 {
+    /**
+     * @var Data
+     */
     protected $helper;
+    /**
+     * @var Registry
+     */
     protected $registry;
 
+    /**
+     * @param Data $helper
+     * @param Registry $registry
+     */
     public function __construct(
         Data $helper,
-        \Magento\Framework\Registry $registry
+        Registry $registry
     ) {
         $this->helper = $helper;
         $this->registry = $registry;
     }
 
+    /**
+     * @param \Magento\Catalog\Model\Product $subject
+     * @param $result
+     * @return float|int
+     */
     public function afterGetPrice(\Magento\Catalog\Model\Product $subject, $result)
     {
         //        $productId = $subject->getId();
@@ -32,6 +51,9 @@ class Product
         return $price;
     }
 
+    /**
+     * @return mixed|null
+     */
     public function getCurrentProduct()
     {
         return $this->registry->registry('current_product');
