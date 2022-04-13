@@ -7,6 +7,6 @@
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="checkout_cart_product_add_after">
-        <observer name="customprice" instance="Product\Discount\Observer\CustomPrice" />
+        <observer name="customprice" instance="Product\Discount\Observer\CustomPrice" disabled="true" />
     </event>
 </config>
