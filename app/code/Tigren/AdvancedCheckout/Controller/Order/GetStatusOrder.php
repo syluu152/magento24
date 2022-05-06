@@ -7,34 +7,41 @@
 
 namespace Tigren\AdvancedCheckout\Controller\Order;
 
+use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\View\Result\PageFactory;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\Controller\Result\Json;
+use Magento\Framework\Controller\Result\JsonFactory;
+use Magento\Sales\Model\ResourceModel\Order\Collection;
+use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 
+/**
+ *
+ */
 class GetStatusOrder extends Action
 {
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var Session
      */
     protected $customer;
 
     /**
-     * @var \Magento\Framework\Controller\Result\JsonFactory
+     * @var JsonFactory
      */
     protected $resultJsonFactory;
 
     /**
      * @param Context $context
-     * @param \Magento\Customer\Model\Session $customer
-     * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollection
-     * @param \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
+     * @param Session $customer
+     * @param CollectionFactory $orderCollection
+     * @param JsonFactory $resultJsonFactory
      */
     public function __construct(
         Context $context,
-        \Magento\Customer\Model\Session $customer,
-        \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollection,
-        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
+        Session $customer,
+        CollectionFactory $orderCollection,
+        JsonFactory $resultJsonFactory
     ) {
         parent::__construct($context);
         $this->customer = $customer;
@@ -43,7 +50,7 @@ class GetStatusOrder extends Action
     }
 
     /**
-     * @return \Magento\Framework\Controller\Result\Json
+     * @return Json
      */
     public function execute()
     {
@@ -67,13 +74,8 @@ class GetStatusOrder extends Action
     }
 
     /**
-     * @return mixed
+     * @return Collection
      */
-    public function getEmailCustomerCurrent()
-    {
-        return $this->customer->getCustomer()->getEmail();
-    }
-
     public function getOrdersOfCustomer()
     {
         $customerOrder = $this->orderCollection->create()
@@ -81,5 +83,13 @@ class GetStatusOrder extends Action
 
         return $customerOrder;
 
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmailCustomerCurrent()
+    {
+        return $this->customer->getCustomer()->getEmail();
     }
 }

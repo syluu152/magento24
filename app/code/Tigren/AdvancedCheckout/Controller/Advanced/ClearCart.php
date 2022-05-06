@@ -8,15 +8,13 @@
 namespace Tigren\AdvancedCheckout\Controller\Advanced;
 
 use Exception;
-use Magento\Checkout\Model\Session;
+use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Controller\ResultInterface;
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Quote\Model\Quote\Item;
+use Magento\Framework\Serialize\Serializer\Json;
 
 /**
  *
@@ -24,62 +22,48 @@ use Magento\Quote\Model\Quote\Item;
 class ClearCart extends Action
 {
     /**
-     * @var Session
+     * @var Json
      */
-    protected $_session;
+    protected $json;
     /**
-     * @var Item
+     * @var JsonFactory
      */
-    protected $_quoteItem;
+    protected $resultJsonFactory;
+    /**
+     * @var CheckoutSession
+     */
+    protected $checkoutSession;
 
     /**
      * @param Context $context
-     * @param Session $session
-     * @param Item $quoteItem
      */
-    function __construct(
+    public function __construct(
         Context $context,
-        Session $session,
-        Item $quoteItem
+        Json $json,
+        JsonFactory $resultJsonFactory,
+        CheckoutSession $checkoutSession
     ) {
-        $this->_quoteItem = $quoteItem;
-        $this->_session = $session;
+        $this->json = $json;
+        $this->resultJsonFactory = $resultJsonFactory;
+        $this->checkoutSession = $checkoutSession;
         parent::__construct($context);
     }
 
     /**
      * @return ResponseInterface|ResultInterface|void
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function execute()
     {
-        $allItems = $this->_session->getQuote()->getAllVisibleItems();
-        $quote_Id = $this->_session->getQuoteId();
-        $error = 0;
-        foreach ($allItems as $item) {
-            $itemId = $item->getItemId();//item id of particular item
-            $allItems = $this->_quoteItem->load($itemId);
-            try {
-                $allItems->delete();
-            } catch (Exception $e) {
-                $error++;
-            }
-        }
-        if (!empty($quote_Id)) {
-            $objectManager = ObjectManager::getInstance();
-            $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
-            $connection = $resource->getConnection();
-            $tableName = $resource->getTableName('quote');
-            $sql = "DELETE  FROM " . $tableName . " WHERE entity_id = " . $quote_Id;
-            $connection->query($sql);
+        $response = [];
+        try {
+            $cart = $this->checkoutSession->getQuote();
+            $cart->removeAllItems()->collectTotals()->save();
+            $response['success'] = true;
+        } catch (Exception $e) {
+            $response['success'] = false;
         }
 
-        if ($error) {
-            $this->messageManager->addErrorMessage("fail " . $error . " item");
-            echo "error";
-        } else {
-            echo "success";
-        }
+        $resultJson = $this->resultJsonFactory->create();
+        return $resultJson->setData($response);
     }
 }

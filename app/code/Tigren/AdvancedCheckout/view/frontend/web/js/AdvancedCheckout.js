@@ -27,17 +27,36 @@ require([
     };
     modal(options, $('#modal-content'));
 
-    $('#product-addtocart-button').on('click', function () {
+    $('#product-addtocart-button').on('click', function (e) {
+        e.preventDefault();
+        //pause button add to cart
         var id_product = $('input[name="product"]').val();
-        var submitting = JSON.parse(localStorage.getItem('submitting'));
-        if (submitting === null) {
-            localStorage.setItem('submitting', 1);
-            getMultiAllow(id_product);
-            $(this).prop('disabled', true);
-        } else {
-            alert('Submitting, please wait');
-        }
-        return false;
+        var url = urlBuilder.build('advanced_front/Advanced/CheckMultiAllow');
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                id_item: id_product
+            },
+            success: function (response) {
+                // if (response && response.attributeValue == 0) {
+                //     if (response.isCartEmpty === false) {
+                //         $('#modal-content').modal('openModal');
+                //     } else {
+                //         jQuery('form[id="product_addtocart_form"]').submit();
+                //     }
+                // } else {
+                //     jQuery('form[id="product_addtocart_form"]').submit();
+                // }
+                if (response && response.attributeValue == 0 && response.isCartEmpty === false) {
+                    $('#modal-content').modal('openModal');
+                } else {
+                    $('form[id="product_addtocart_form"]').submit();
+                    //submit form
+                }
+            }
+        });
     });
 
     $('#go-to-checkout').on('click', function () {
@@ -46,67 +65,23 @@ require([
 
     $('#clear-cart').on('click', function () {
         var url = urlBuilder.build('advanced_front/Advanced/ClearCart');
-        var sections = ['cart'];
-
         $.ajax({
             url: url,
             type: 'POST',
-            dataType: 'text',
+            dataType: 'json',
             beforeSend: function () {
                 $('#loader').show();
             },
             success: function (response) {
-                if (response != 'error') {
+                if (response && response.success === true) {
+                    //update minicart
+                    var sections = ['cart'];
                     customerData.invalidate(sections);
-                    $('#loader').hide();
+                    customerData.reload(sections, true);
+                    //end update minicart
                     location.reload();
                 }
             }
         });
     });
-
-    function getMultiAllow(id_product) {
-        var url = urlBuilder.build('advanced_front/Advanced/CheckMultiAllow');
-        $.ajax({
-            url: url,
-            type: 'POST',
-            dataType: 'text',
-            data: {
-                id_item: id_product
-            }
-        }).done(function (result) {
-            var localStore = JSON.parse(localStorage.getItem('mage-cache-storage'));
-
-            var countItem;
-            if (typeof (localStore['cart']) == 'undefined') {
-                countItem = 1;
-            } else {
-                countItem = localStore['cart']['summary_count'];
-            }
-
-            if (result == '1') {
-                $('#product_addtocart_form').submit().ajaxSuccess(function () {
-                    clearSubmitting();
-                });
-            } else {
-                if (!countItem) {
-                    $('#product_addtocart_form').submit().ajaxSuccess(function () {
-                        clearSubmitting();
-                    });
-                } else {
-                    $('#modal-content').modal('openModal');
-                    clearSubmitting();
-                }
-            }
-            $('#product-addtocart-button').prop('disabled', false);
-        });
-    }
-
-    function clearSubmitting() {
-        var submitting = JSON.parse(localStorage.getItem('submitting'));
-        if (submitting !== null) {
-            localStorage.removeItem('submitting');
-            console.log('cleared');
-        }
-    }
 });

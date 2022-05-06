@@ -161,7 +161,7 @@ define([
          */
         placeOrder: function (data, event) {
             var self = this;
-            const url = self.getBaseUrl() + '/advanced_front/order/getstatusorder';
+            const url = self.getBaseUrl() + '/advanced_front/order/GetStatusOrder';
 
             if (event) {
                 event.preventDefault();
@@ -194,10 +194,8 @@ define([
                                     self.isPlaceOrderActionAllowed(true);
                                 }
                             );
-
                             return true;
                         }
-
                         return false;
                     }
                 }

@@ -7,11 +7,18 @@
 
 namespace Tigren\AdvancedCheckout\Controller\Advanced;
 
+use Exception;
+use Magento\Catalog\Model\ProductRepository;
+use Magento\Checkout\Model\Cart;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\Result\JsonFactory;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Quote\Model\Quote\Item;
-use Magento\Catalog\Model\ProductRepository;
 
 /**
  *
@@ -28,6 +35,18 @@ class CheckMultiAllow extends Action
      * @var Item
      */
     protected $_quoteItem;
+    /**
+     * @var Json
+     */
+    protected $json;
+    /**
+     * @var JsonFactory
+     */
+    protected $resultJsonFactory;
+    /**
+     * @var Cart
+     */
+    protected $cart;
 
     /**
      * @var ProductRepository
@@ -44,32 +63,47 @@ class CheckMultiAllow extends Action
         Context $context,
         Session $session,
         Item $quoteItem,
+        Json $json,
+        JsonFactory $resultJsonFactory,
+        Cart $cart,
         ProductRepository $productRepository
     ) {
         $this->_quoteItem = $quoteItem;
+        $this->json = $json;
+        $this->resultJsonFactory = $resultJsonFactory;
+        $this->cart = $cart;
         $this->_session = $session;
         $this->_productRepository = $productRepository;
         parent::__construct($context);
     }
 
     /**
-     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|void
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @return ResponseInterface|ResultInterface|void
+     * @throws NoSuchEntityException
      */
     public function execute()
     {
-        $postValue = $this->getRequest()->getPostValue();
-        $id_product = $postValue['id_item'];
+        $response = [];
+        try {
+            $postValue = $this->getRequest()->getPostValue();
+            $id_product = $postValue['id_item'];
+            $product = $this->_productRepository->getById($id_product);
+            $advancedCheckoutAtributeValue = $product->getCustomAttribute('product_advance_checkout') ? $product->getCustomAttribute('product_advance_checkout')->getValue() : '';
 
-        $product = $this->_productRepository->getById($id_product);
-        $attributes = $product->getCustomAttribute('product_advance_checkout');
+            $countQuoteItem = count($this->cart->getQuote()->getAllVisibleItems());
 
-        if (!empty($attributes)) {
-            $attributeValue = $attributes->getValue();
-            echo $attributeValue;
-        } else {
-            echo "0";
+            if ($countQuoteItem > 0) {
+                $response['isCartEmpty'] = false;
+            } else {
+                $response['isCartEmpty'] = true;
+            }
+            $response['attributeValue'] = $advancedCheckoutAtributeValue;
+            $response['success'] = true;
+        } catch (Exception $e) {
+            $response['success'] = false;
         }
+        $resultJson = $this->resultJsonFactory->create();
+        return $resultJson->setData($response);
     }
 }
 
