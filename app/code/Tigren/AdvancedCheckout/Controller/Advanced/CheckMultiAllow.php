@@ -88,7 +88,7 @@ class CheckMultiAllow extends Action
             $postValue = $this->getRequest()->getPostValue();
             $id_product = $postValue['id_item'];
             $product = $this->_productRepository->getById($id_product);
-            $advancedCheckoutAtributeValue = $product->getCustomAttribute('product_advance_checkout') ? $product->getCustomAttribute('product_advance_checkout')->getValue() : '';
+            $advancedCheckoutAttributeValue = $product->getCustomAttribute('product_advance_checkout') ? $product->getCustomAttribute('product_advance_checkout')->getValue() : '';
 
             $countQuoteItem = count($this->cart->getQuote()->getAllVisibleItems());
 
@@ -97,7 +97,7 @@ class CheckMultiAllow extends Action
             } else {
                 $response['isCartEmpty'] = true;
             }
-            $response['attributeValue'] = $advancedCheckoutAtributeValue;
+            $response['attributeValue'] = $advancedCheckoutAttributeValue;
             $response['success'] = true;
         } catch (Exception $e) {
             $response['success'] = false;
