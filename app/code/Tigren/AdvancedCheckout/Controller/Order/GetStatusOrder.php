@@ -54,8 +54,12 @@ class GetStatusOrder extends Action
      */
     public function execute()
     {
+        //        $resultJson = $this->resultJsonFactory->create();
+        //        return $resultJson->setData(['orderStatus' => $this->checkOrderStatus()]);
+        $orderStatus = $this->checkOrderStatus();
+        $response['orderStatus'] = $orderStatus;
         $resultJson = $this->resultJsonFactory->create();
-        return $resultJson->setData(['orderStatus' => $this->checkOrderStatus()]);
+        return $resultJson->setData($response);
     }
 
     /**
